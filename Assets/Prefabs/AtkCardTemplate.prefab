@@ -84,6 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 439275517838615396}
   - component: {fileID: 439275517838615399}
+  - component: {fileID: -9011406730383329045}
   - component: {fileID: 439275517838615398}
   m_Layer: 5
   m_Name: AtkCardTemplate
@@ -164,6 +165,24 @@ MonoBehaviour:
   thisImage: {fileID: 439275519242737355}
   frame: {fileID: 439275517815818028}
   cardBack: 0
+  Hand: {fileID: 0}
+  playerDeck: {fileID: 0}
+  numberOfCardsInDeck: 0
+  playZone: {fileID: 0}
+--- !u!114 &-9011406730383329045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439275517838615397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 232deb1742f861348abb51e12635d250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentToReturnTo: {fileID: 0}
+  placeholderParent: {fileID: 0}
 --- !u!114 &439275517838615398
 MonoBehaviour:
   m_ObjectHideFlags: 0

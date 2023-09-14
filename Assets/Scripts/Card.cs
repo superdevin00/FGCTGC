@@ -19,6 +19,7 @@ public class Card
 
     public string cardType;
 
+
     public Card()
     {
 

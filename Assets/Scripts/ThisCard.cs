@@ -42,6 +42,8 @@ public class ThisCard : MonoBehaviour
     public PlayerDeck playerDeck;
     public int numberOfCardsInDeck;
 
+    public GameObject playZone;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,7 +104,15 @@ public class ThisCard : MonoBehaviour
             thisCard[0] = PlayerDeck.staticDeck[numberOfCardsInDeck - 1];
             numberOfCardsInDeck -= 1;
             playerDeck.deckSize -= 1;
+            //cardBack = false;
             this.tag = "Untagged";
+        }
+
+        playZone = GameObject.Find("Play Panel");
+
+        if(this.transform.parent == playZone.transform)
+        {
+
         }
     }
 }
