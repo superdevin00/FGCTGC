@@ -12,6 +12,8 @@ public class TurnSystem : MonoBehaviour
     public TMP_Text turnText;
     public GameObject playZone;
 
+    public static bool startTurn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +22,7 @@ public class TurnSystem : MonoBehaviour
         yourOpponentTurn = 0;
         playZone = GameObject.Find("Play Panel");
 
-
+        startTurn = false;
     }
 
     // Update is called once per frame
@@ -47,5 +49,7 @@ public class TurnSystem : MonoBehaviour
     {
         isYourTurn = true;
         yourTurn += 1;
+
+        startTurn = true;
     }
 }
