@@ -5,10 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class ThisCard : MonoBehaviour
+public class ThatCard : MonoBehaviour
 {
-    public List<Card> thisCard = new List<Card>();
-    public int thisId;
+    public List<Card> thatCard = new List<Card>();
+    public int thatId;
 
     public int id;
     public string cardName;
@@ -28,8 +28,8 @@ public class ThisCard : MonoBehaviour
     public TMP_Text rangeText;
     public TMP_Text descriptionText;
 
-    public Sprite thisSprite;
-    public Image thisImage;
+    public Sprite thatSprite;
+    public Image thatImage;
     public Image frame;
     private Color frameColor;
 
@@ -39,7 +39,7 @@ public class ThisCard : MonoBehaviour
 
     public GameObject Hand;
 
-    public PlayerDeck playerDeck;
+    public OpponentDeck opponentDeck;
     public int numberOfCardsInDeck;
 
     public GameObject playZone;
@@ -52,32 +52,32 @@ public class ThisCard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerDeck = GameObject.Find("Deck Panel").GetComponent<PlayerDeck>();
-        thisCard[0] = CardDataBase.cardList[thisId];
-        numberOfCardsInDeck = playerDeck.deckSize;
+        opponentDeck = GameObject.Find("Opponent Deck Panel").GetComponent<OpponentDeck>();
+        thatCard[0] = CardDataBase.cardList[thatId];
+        numberOfCardsInDeck = opponentDeck.deckSize;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Hand = GameObject.Find("Hand Panel");
-        if(this.transform.parent == Hand.transform)
+        Hand = GameObject.Find("Opponent Card Panel");
+        if (this.transform.parent == Hand.transform)
         {
             cardBack = false;
 
         }
 
         cardBackScript = GetComponent<CardBack>();
-        id = thisCard[0].id;
-        cardName = thisCard[0].cardName;
-        cardStyles = thisCard[0].cardStyles;
-        startUp = thisCard[0].startUp;
-        recovery = thisCard[0].recovery;
-        damage = thisCard[0].damage;
-        range = thisCard[0].range;
-        description = thisCard[0].description;
+        id = thatCard[0].id;
+        cardName = thatCard[0].cardName;
+        cardStyles = thatCard[0].cardStyles;
+        startUp = thatCard[0].startUp;
+        recovery = thatCard[0].recovery;
+        damage = thatCard[0].damage;
+        range = thatCard[0].range;
+        description = thatCard[0].description;
 
-        thisSprite = thisCard[0].cardImage;
+        thatSprite = thatCard[0].cardImage;
 
         nameText.text = "" + cardName;
         startUpText.text = "" + startUp;
@@ -86,9 +86,9 @@ public class ThisCard : MonoBehaviour
         //damageText.text = "" + damage;
         //rangeText.text = "" + range;
 
-        thisImage.sprite = thisSprite;
+        thatImage.sprite = thatSprite;
 
-        switch (thisCard[0].cardType)
+        switch (thatCard[0].cardType)
         {
             case "None": frameColor = Color.gray; break;
             case "Character": frameColor = Color.black; break;
@@ -104,11 +104,11 @@ public class ThisCard : MonoBehaviour
         cardBackScript.UpdateCard(cardBack);
         staticCardBack = cardBack;
 
-        if(this.tag == "Clone")
+        if (this.tag == "Clone")
         {
-            thisCard[0] = PlayerDeck.staticDeck[numberOfCardsInDeck - 1];
+            thatCard[0] = PlayerDeck.staticDeck[numberOfCardsInDeck - 1];
             numberOfCardsInDeck -= 1;
-            playerDeck.deckSize -= 1;
+            opponentDeck.deckSize -= 1;
             //cardBack = false;
             this.tag = "Untagged";
         }
@@ -119,15 +119,15 @@ public class ThisCard : MonoBehaviour
         }
         else canBePlayed = false;
 
-        if (canBePlayed == false) //Turn off dragging if card cant be played
+        /*if (canBePlayed == false) //Turn off dragging if card cant be played
         {
             gameObject.GetComponent<Draggable>().enabled = false;
         }
-        else gameObject.GetComponent<Draggable>().enabled = true;
+        else gameObject.GetComponent<Draggable>().enabled = true;*/
 
         playZone = GameObject.Find("Play Panel");
 
-        if(this.transform.parent == playZone.transform)
+        if (this.transform.parent == playZone.transform)
         {
 
         }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Card
 {
-    public int id;
+    public int id; [Tooltip("Card ID")]
     public string cardName;
     public int[] cardStyles;
     public int startUp;
@@ -18,7 +18,7 @@ public class Card
     public Sprite cardImage;
 
     public string cardType;
-
+    
 
     public Card()
     {

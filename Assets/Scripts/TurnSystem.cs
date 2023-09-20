@@ -12,6 +12,8 @@ public class TurnSystem : MonoBehaviour
     public TMP_Text turnText;
     public GameObject playZone;
 
+    public OpponentDeck oppDeck;
+
     public static bool startTurn;
 
     // Start is called before the first frame update
@@ -21,6 +23,7 @@ public class TurnSystem : MonoBehaviour
         yourTurn = 1;
         yourOpponentTurn = 0;
         playZone = GameObject.Find("Play Panel");
+        oppDeck = GameObject.Find("Opponent Deck Panel").GetComponent<OpponentDeck>();
 
         startTurn = false;
     }
@@ -43,6 +46,8 @@ public class TurnSystem : MonoBehaviour
         {
             Debug.Log("Too Many cards in playzone");
         }
+
+        oppDeck.Draw(1);
         
     }
     public void EndOpponentTurn()

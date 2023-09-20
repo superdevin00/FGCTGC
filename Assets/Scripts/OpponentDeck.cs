@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDeck : MonoBehaviour
+public class OpponentDeck : MonoBehaviour
 {
 
     public List<Card> deck = new List<Card>();
@@ -17,7 +17,7 @@ public class PlayerDeck : MonoBehaviour
     public GameObject cardInDeck3;
     public GameObject cardInDeck4;
 
-    public GameObject cardToHand;
+    public GameObject cardToPlay;
     public GameObject cardBack;
     public GameObject Deck;
 
@@ -31,7 +31,7 @@ public class PlayerDeck : MonoBehaviour
         x = 0;
         deckSize = 20;
 
-        for(int i=0; i<deckSize; i++ )
+        for (int i = 0; i < deckSize; i++)
         {
             x = Random.Range(1, 6);
             deck[i] = CardDataBase.cardList[x];
@@ -61,11 +61,11 @@ public class PlayerDeck : MonoBehaviour
             cardInDeck4.SetActive(false);
         }
 
-        if(TurnSystem.startTurn == true) //At the beginning of player turn
+        /*if (TurnSystem.startTurn == true) //At the beginning of player turn
         {
             StartCoroutine(Draw(1)); //Draw 1 card
             TurnSystem.startTurn = false;
-        }
+        }*/
     }
 
     IEnumerator Example()
@@ -73,7 +73,7 @@ public class PlayerDeck : MonoBehaviour
         yield return new WaitForSeconds(1);
         Clones = GameObject.FindGameObjectsWithTag("Clone");
 
-        foreach(GameObject Clone in Clones)
+        foreach (GameObject Clone in Clones)
         {
             Destroy(Clone);
         }
@@ -81,16 +81,16 @@ public class PlayerDeck : MonoBehaviour
 
     IEnumerator StartGame()
     {
-        for(int i =0;i<10;i++)
+        for (int i = 0; i < 1; i++)
         {
-            yield return new WaitForSeconds(0.2f);
-            Instantiate(cardToHand, transform.position, transform.rotation);
+            yield return new WaitForSeconds(1);
+            Instantiate(cardToPlay, transform.position, transform.rotation);
         }
     }
 
     public void Shuffle()
     {
-        for(int i = 0; i < deckSize; i++)
+        for (int i = 0; i < deckSize; i++)
         {
             container[0] = deck[i];
             int randomIndex = Random.RandomRange(i, deckSize);
@@ -101,15 +101,20 @@ public class PlayerDeck : MonoBehaviour
         StartCoroutine(Example());
     }
 
-    IEnumerator Draw(int x)
+    public void Draw(int x)
     {
-        for(int i=0; i<x; i++)
+        StartCoroutine(DrawRoutine(x));
+    }
+
+    IEnumerator DrawRoutine(int x)
+    {
+        for (int i = 0; i < x; i++)
         {
             yield return new WaitForSeconds(1);
-            Instantiate(cardToHand, transform.position, transform.rotation);
+            Instantiate(cardToPlay, transform.position, transform.rotation);
         }
     }
 
-   
-    
+
+
 }
