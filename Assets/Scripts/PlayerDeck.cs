@@ -63,7 +63,7 @@ public class PlayerDeck : MonoBehaviour
 
         if(TurnSystem.startTurn == true) //At the beginning of player turn
         {
-            StartCoroutine(Draw(1)); //Draw 1 card
+            Draw(1); //Draw 1 card
             TurnSystem.startTurn = false;
         }
     }
@@ -81,7 +81,7 @@ public class PlayerDeck : MonoBehaviour
 
     IEnumerator StartGame()
     {
-        for(int i =0;i<10;i++)
+        for(int i =0;i<5;i++)
         {
             yield return new WaitForSeconds(0.2f);
             Instantiate(cardToHand, transform.position, transform.rotation);
@@ -101,7 +101,12 @@ public class PlayerDeck : MonoBehaviour
         StartCoroutine(Example());
     }
 
-    IEnumerator Draw(int x)
+    public void Draw(int x)
+    {
+        StartCoroutine(DrawRoutine(x));
+    }
+
+    IEnumerator DrawRoutine(int x)
     {
         for(int i=0; i<x; i++)
         {

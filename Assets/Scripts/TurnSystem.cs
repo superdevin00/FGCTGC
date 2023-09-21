@@ -13,6 +13,7 @@ public class TurnSystem : MonoBehaviour
     public GameObject playZone;
 
     public OpponentDeck oppDeck;
+    public PlayerDeck playerDeck;
 
     public static bool startTurn;
 
@@ -47,7 +48,7 @@ public class TurnSystem : MonoBehaviour
             Debug.Log("Too Many cards in playzone");
         }
 
-        oppDeck.Draw(1);
+        //oppDeck.Draw(1);
         
     }
     public void EndOpponentTurn()
@@ -56,5 +57,11 @@ public class TurnSystem : MonoBehaviour
         yourTurn += 1;
 
         startTurn = true;
+    }
+
+    public void ReturnToNeutral()
+    {
+        oppDeck.Draw(1);
+        playerDeck.Draw(1);
     }
 }

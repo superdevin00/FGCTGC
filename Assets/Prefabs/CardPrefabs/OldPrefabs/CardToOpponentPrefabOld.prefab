@@ -748,7 +748,7 @@ GameObject:
   - component: {fileID: 6151686716078809757}
   - component: {fileID: 5854650000173435221}
   m_Layer: 5
-  m_Name: CardToOpponentPrefab
+  m_Name: CardToOpponentPrefabOld
   m_TagString: Clone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

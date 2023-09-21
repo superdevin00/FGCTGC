@@ -8,22 +8,23 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     public GameObject swapCard;
     public void OnDrop(PointerEventData eventData)
     {
-        
-
-        Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name);
-
-        Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
-        if(d != null)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            if (name == "Play Panel" && transform.childCount > 1) //Return if Playzone is occupied
-            {
-                swapCard = GetComponentInChildren<Draggable>().gameObject;
-                swapCard.transform.SetParent(d.parentToReturnTo);
-                swapCard.transform.SetSiblingIndex(d.placeholder.transform.GetSiblingIndex());
-                //return;
-            }
+            Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name);
 
-            d.parentToReturnTo = this.transform;
+            Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
+            if (d != null)
+            {
+                if (name == "Play Panel" && transform.childCount > 1) //Return if Playzone is occupied
+                {
+                    swapCard = GetComponentInChildren<Draggable>().gameObject;
+                    swapCard.transform.SetParent(d.parentToReturnTo);
+                    swapCard.transform.SetSiblingIndex(d.placeholder.transform.GetSiblingIndex());
+                    //return;
+                }
+
+                d.parentToReturnTo = this.transform;
+            }
         }
     }
 

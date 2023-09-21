@@ -8,6 +8,10 @@ public class GameController : MonoBehaviour
 {
     public Card playerCard;
     public Card opponentCard;
+    public GameObject playerCardObject;
+    public GameObject opponentCardObject;
+    public PlayerDeck playerDeck;
+    public OpponentDeck oppDeck;
     public int currentFrame;
     public int lastFrame;
     public bool playerHit;
@@ -24,6 +28,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        oppDeck = GameObject.Find("Opponent Deck Panel").GetComponent<OpponentDeck>();
+        playerDeck = GameObject.Find("Deck Panel").GetComponent<PlayerDeck>();
         specialFunction = GetComponent<SpecialFunction>();
         currentRange = 0;
     }
@@ -38,6 +44,8 @@ public class GameController : MonoBehaviour
     {
         playerCard = GameObject.Find("Play Panel").GetComponentInChildren<ThisCard>().thisCard[0];
         opponentCard = GameObject.Find("Opponent Card Panel").GetComponentInChildren<ThatCard>().thatCard[0];
+        playerCardObject = GameObject.Find("Play Panel").GetComponentInChildren<ThisCard>().gameObject;
+        opponentCardObject = GameObject.Find("Opponent Card Panel").GetComponentInChildren<ThatCard>().gameObject;
         playerHit = false;
         opponentHit = false;
 
@@ -112,6 +120,18 @@ public class GameController : MonoBehaviour
         specialFunction.checkSpecialFunctionHit(opponentCard, opponentHit);
 
         winnerText.text = interactionWinner;
+
+        //Discard Cards
+        playerCardObject.GetComponent<ThisCard>().DiscardCard();
+        Destroy(opponentCardObject);
+
+        ReturnToNeutral();
+    }
+
+    public void ReturnToNeutral()
+    {
+        oppDeck.Draw(1);
+        playerDeck.Draw(1);
     }
 
     public void AddToRange (int x) //Alter the current range by X

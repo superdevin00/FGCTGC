@@ -13,59 +13,68 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OnBeginDrag");
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            Debug.Log("OnBeginDrag");
 
-        placeholder = new GameObject();
-        placeholder.transform.SetParent(this.transform.parent);
-        LayoutElement le = placeholder.AddComponent<LayoutElement>();
-        le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
-        le.preferredHeight = this.GetComponent<LayoutElement>().preferredHeight;
-        le.flexibleWidth = 0;
-        le.flexibleHeight = 0;
+            //Set up a placeholder to return current object to if no Dropzone is found
+            placeholder = new GameObject();
+            placeholder.transform.SetParent(this.transform.parent);
+            LayoutElement le = placeholder.AddComponent<LayoutElement>();
+            le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
+            le.preferredHeight = this.GetComponent<LayoutElement>().preferredHeight;
+            le.flexibleWidth = 0;
+            le.flexibleHeight = 0;
+            placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
 
-        placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
+            parentToReturnTo = this.transform.parent;
+            placeholderParent = parentToReturnTo;
+            this.transform.SetParent(this.transform.parent.parent);
 
-        parentToReturnTo = this.transform.parent;
-        placeholderParent = parentToReturnTo;
-        this.transform.SetParent(this.transform.parent.parent);
-
-        GetComponent<CanvasGroup>().blocksRaycasts = false;
+            GetComponent<CanvasGroup>().blocksRaycasts = false;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        this.transform.position = eventData.position;
-
-        if(placeholder.transform.parent != placeholderParent)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            placeholder.transform.SetParent(placeholderParent);
-        }
-        int newSiblingIndex = placeholderParent.childCount;
+            this.transform.position = eventData.position;
 
-        for(int i = 0; i< placeholderParent.childCount; i++)
-        {
-            if(this.transform.position.x < placeholderParent.GetChild(i).position.x)
+            if (placeholder.transform.parent != placeholderParent)
             {
-                newSiblingIndex = i;
-                if(placeholder.transform.GetSiblingIndex() < newSiblingIndex)
-                {
-                    newSiblingIndex--;
-                }
-                break;
+                placeholder.transform.SetParent(placeholderParent);
             }
-        }
+            int newSiblingIndex = placeholderParent.childCount;
 
-        placeholder.transform.SetSiblingIndex(newSiblingIndex);
+            for (int i = 0; i < placeholderParent.childCount; i++)
+            {
+                if (this.transform.position.x < placeholderParent.GetChild(i).position.x)
+                {
+                    newSiblingIndex = i;
+                    if (placeholder.transform.GetSiblingIndex() < newSiblingIndex)
+                    {
+                        newSiblingIndex--;
+                    }
+                    break;
+                }
+            }
+
+            placeholder.transform.SetSiblingIndex(newSiblingIndex);
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnEndDrag");
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            Debug.Log("OnEndDrag");
 
-        this.transform.SetParent(parentToReturnTo);
-        this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
-        GetComponent<CanvasGroup>().blocksRaycasts = true;
-        Destroy(placeholder);
+            this.transform.SetParent(parentToReturnTo);
+            this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+            GetComponent<CanvasGroup>().blocksRaycasts = true;
+            Destroy(placeholder);
+        }
     }
 
 }
