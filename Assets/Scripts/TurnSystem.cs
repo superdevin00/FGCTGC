@@ -64,4 +64,9 @@ public class TurnSystem : MonoBehaviour
         oppDeck.Draw(1);
         playerDeck.Draw(1);
     }
+
+    public void PlayerCanPlay(bool canPlay)
+    {
+        isYourTurn = canPlay;
+    }
 }

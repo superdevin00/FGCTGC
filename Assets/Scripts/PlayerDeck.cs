@@ -28,14 +28,19 @@ public class PlayerDeck : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         x = 0;
-        deckSize = 20;
+        deckSize = 22;
 
-        for(int i=0; i<deckSize; i++ )
+        for(int i=0; i<deckSize - 2; i++ )
         {
-            x = Random.Range(1, 6);
+            x = Random.Range(2, 7);
             deck[i] = CardDataBase.cardList[x];
         }
+        deck[deckSize-1] = CardDataBase.cardList[0];
+        deck[deckSize-2] = CardDataBase.cardList[1];
+        //deck[]
+
         StartCoroutine(StartGame());
     }
 
@@ -81,11 +86,17 @@ public class PlayerDeck : MonoBehaviour
 
     IEnumerator StartGame()
     {
-        for(int i =0;i<5;i++)
+        /*GameObject blockCard = Instantiate(cardToHand, transform.position, transform.rotation);
+        GameObject grabCard = Instantiate(cardToHand, transform.position, transform.rotation);
+        blockCard.GetComponent<ThisCard>().thisCard[0] = CardDataBase.cardList[0];
+        blockCard.GetComponent<ThisCard>().thisCard[0] = CardDataBase.cardList[1];*/
+
+        for (int i =0;i<7;i++)
         {
             yield return new WaitForSeconds(0.2f);
             Instantiate(cardToHand, transform.position, transform.rotation);
         }
+        
     }
 
     public void Shuffle()
@@ -93,7 +104,7 @@ public class PlayerDeck : MonoBehaviour
         for(int i = 0; i < deckSize; i++)
         {
             container[0] = deck[i];
-            int randomIndex = Random.RandomRange(i, deckSize);
+            int randomIndex = Random.Range(i, deckSize);
             deck[i] = deck[randomIndex];
             deck[randomIndex] = container[0];
         }
@@ -106,6 +117,15 @@ public class PlayerDeck : MonoBehaviour
         StartCoroutine(DrawRoutine(x));
     }
 
+    public void DrawTo(int x)
+    {
+        Debug.Log(Hand.transform.childCount);
+        if (Hand.transform.childCount < x)
+        {
+            StartCoroutine(DrawRoutine(x - Hand.transform.childCount));
+        }
+    }
+
     IEnumerator DrawRoutine(int x)
     {
         for(int i=0; i<x; i++)
@@ -114,7 +134,4 @@ public class PlayerDeck : MonoBehaviour
             Instantiate(cardToHand, transform.position, transform.rotation);
         }
     }
-
-   
-    
 }

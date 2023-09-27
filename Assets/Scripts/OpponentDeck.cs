@@ -33,7 +33,7 @@ public class OpponentDeck : MonoBehaviour
 
         for (int i = 0; i < deckSize; i++)
         {
-            x = Random.Range(1, 6);
+            x = Random.Range(2, 7);
             deck[i] = CardDataBase.cardList[x];
         }
         StartCoroutine(StartGame());
@@ -93,7 +93,7 @@ public class OpponentDeck : MonoBehaviour
         for (int i = 0; i < deckSize; i++)
         {
             container[0] = deck[i];
-            int randomIndex = Random.RandomRange(i, deckSize);
+            int randomIndex = Random.Range(i, deckSize);
             deck[i] = deck[randomIndex];
             deck[randomIndex] = container[0];
         }

@@ -19,12 +19,21 @@ public class SpecialFunction : MonoBehaviour
         }
     }
 
-    public void checkSpecialFunctionHit(Card card, bool cardHit)
+    public void checkSpecialFunctionHit(Card card, bool cardHit, string target)
     {
         switch (card.cardName)
         {
             case "Palm Strike": PalmStrike(cardHit); break;
+            case "Leg Sweep": LegSweep(cardHit, target); break;
             default: break;
+        }
+    }
+
+    public void LegSweep(bool cardHit, string target)
+    { 
+        if (cardHit)
+        {
+            gameController.Knockdown(target);
         }
     }
 

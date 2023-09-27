@@ -17,6 +17,8 @@ public class ThatCard : MonoBehaviour
     public int recovery;
     public int damage;
     public int range;
+    public int hitAdv;
+    public int blockAdv;
     public string description;
 
     public TMP_Text nameText;
@@ -26,6 +28,8 @@ public class ThatCard : MonoBehaviour
     public TMP_Text recoveryText;
     public TMP_Text damageText;
     public TMP_Text rangeText;
+    public TMP_Text hitAdvText;
+    public TMP_Text blockAdvText;
     public TMP_Text descriptionText;
 
     public Sprite thatSprite;
@@ -75,16 +79,20 @@ public class ThatCard : MonoBehaviour
         recovery = thatCard[0].recovery;
         damage = thatCard[0].damage;
         range = thatCard[0].range;
+        hitAdv = thatCard[0].hitAdv;
+        blockAdv = thatCard[0].blockAdv;
         description = thatCard[0].description;
 
         thatSprite = thatCard[0].cardImage;
 
         nameText.text = "" + cardName;
-        startUpText.text = "" + startUp;
-        recoveryText.text = "" + recovery;
+        startUpText.text = "" + startUp + "f";
+        recoveryText.text = "" + recovery + "f";
         descriptionText.text = description;
-        //damageText.text = "" + damage;
-        //rangeText.text = "" + range;
+        damageText.text = "" + damage;
+        rangeText.text = "" + range;
+        hitAdvText.text = (hitAdv > 0) ? "+" + hitAdv : "" + hitAdv;
+        blockAdvText.text = (blockAdv > 0) ? "+" + blockAdv : "" + blockAdv;
 
         thatImage.sprite = thatSprite;
 
@@ -98,8 +106,37 @@ public class ThatCard : MonoBehaviour
 
             default: frameColor = Color.white; break;
         }
-
         frame.GetComponent<Image>().color = frameColor;
+
+        //Sets the Card Styles based on the id given
+        #region cardStyles
+        if (thatCard[0].cardStyles.Length > 0)
+        {
+            switch (thatCard[0].cardStyles[0])
+            {
+                case 0: style1Image.sprite = Resources.Load<Sprite>("Images/StrikeIcon"); break;
+                case 1: style1Image.sprite = Resources.Load<Sprite>("Images/BladeIcon"); break;
+                default: style1Image.enabled = false; break;
+            }
+        }
+        else
+        {
+            style1Image.enabled = false;
+        }
+        if (thatCard[0].cardStyles.Length > 1)
+        {
+            switch (thatCard[0].cardStyles[1])
+            {
+                case 0: style2Image.sprite = Resources.Load<Sprite>("Images/StrikeIcon"); break;
+                case 1: style2Image.sprite = Resources.Load<Sprite>("Images/BladeIcon"); break;
+                default: style2Image.enabled = false; break;
+            }
+        }
+        else
+        {
+            style2Image.enabled = false;
+        }
+        #endregion cardStyles 
 
         cardBackScript.UpdateCard(cardBack);
         staticCardBack = cardBack;
