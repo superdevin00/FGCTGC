@@ -9,6 +9,7 @@ public class CardDataBase : MonoBehaviour
 
     private void Awake()
     {
+        //cardList.Add(new Card(-1, "TEST", new int[0] { }, 1, 10, 0, 0, 1, 0, "TEST", Resources.Load<Sprite>("Images/NoImg"), "None"));
         // ID, Name, Styles{styleX,styleY}, StartUp, Recovery, Damage, Range, Hit Adv, Block Adv, Descrition, Card Sprite, Card Type
         cardList.Add(new Card(0, "Block", new int[0] {}, 1, 10, 0, 0, 1, 0, "Defend Against Incoming Damage", Resources.Load<Sprite>("Images/NoImg"), "Block"));
         cardList.Add(new Card(1, "Grab", new int[0] {}, 5, 10, 5, 0, 1, 0, "Knockdown", Resources.Load<Sprite>("Images/NoImg"), "Grab"));

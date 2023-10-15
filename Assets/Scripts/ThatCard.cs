@@ -57,7 +57,7 @@ public class ThatCard : MonoBehaviour
     void Start()
     {
         opponentDeck = GameObject.Find("Opponent Deck Panel").GetComponent<OpponentDeck>();
-        thatCard[0] = CardDataBase.cardList[thatId];
+        //thatCard[0] = CardDataBase.cardList[thatId];
         numberOfCardsInDeck = opponentDeck.deckSize;
     }
 
@@ -143,7 +143,7 @@ public class ThatCard : MonoBehaviour
 
         if (this.tag == "Clone")
         {
-            thatCard[0] = PlayerDeck.staticDeck[numberOfCardsInDeck - 1];
+            //thatCard[0];
             numberOfCardsInDeck -= 1;
             opponentDeck.deckSize -= 1;
             //cardBack = false;
@@ -171,8 +171,6 @@ public class ThatCard : MonoBehaviour
     }
     public void DiscardCard()
     {
-        Discard = GameObject.Find("Discard Panel");
-        this.transform.SetParent(Discard.transform);
-        isInDiscard = true;
+        Destroy(gameObject);
     }
 }

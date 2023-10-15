@@ -33,10 +33,9 @@ public class OpponentDeck : MonoBehaviour
 
         for (int i = 0; i < deckSize; i++)
         {
-            x = Random.Range(2, 7);
-            deck[i] = CardDataBase.cardList[x];
+            deck[i] = CardDataBase.cardList[0];
         }
-        StartCoroutine(StartGame());
+        //StartCoroutine(StartGame());
     }
 
     // Update is called once per frame
@@ -113,6 +112,13 @@ public class OpponentDeck : MonoBehaviour
             yield return new WaitForSeconds(1);
             Instantiate(cardToPlay, transform.position, transform.rotation);
         }
+    }
+
+    public void playOpponentCard(int cardId)
+    {
+        GameObject oppCard = Instantiate(cardToPlay, transform.position, transform.rotation);
+        oppCard.GetComponent<ThatCard>().thatId = cardId;
+        oppCard.GetComponent<ThatCard>().thatCard[0] = CardDataBase.cardList[cardId];
     }
 
 

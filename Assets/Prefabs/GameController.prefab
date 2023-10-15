@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3245387626437400867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3245387626437400877}
+  - component: {fileID: 3245387626437400876}
+  - component: {fileID: 3245387626437400878}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3245387626437400877
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3245387626437400867}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3245387626437400876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3245387626437400867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8306e2a5e0de07b438e49592f571291d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCard:
+    id: 0
+    cardName: 
+    cardStyles: 
+    startUp: 0
+    recovery: 0
+    damage: 0
+    range: 0
+    hitAdv: 0
+    blockAdv: 0
+    description: 
+    cardImage: {fileID: 0}
+    cardType: 
+  opponentCard:
+    id: 0
+    cardName: 
+    cardStyles: 
+    startUp: 0
+    recovery: 0
+    damage: 0
+    range: 0
+    hitAdv: 0
+    blockAdv: 0
+    description: 
+    cardImage: {fileID: 0}
+    cardType: 
+  playerCardObject: {fileID: 0}
+  opponentCardObject: {fileID: 0}
+  playerDeck: {fileID: 0}
+  oppDeck: {fileID: 0}
+  playerAdv: 0
+  playerHealth: 0
+  opponentHealth: 0
+  currentFrame: 0
+  lastFrame: 0
+  playerFrameToContinue: 0
+  opponentFrameToContinue: 0
+  playerHit: 0
+  opponentHit: 0
+  playerBlock: 0
+  opponentBlock: 0
+  gamePhase: 
+  isKnockdown: 0
+  canPlayerPlayCard: 0
+  currentRange: 0
+  winnerText: {fileID: 0}
+  rangeText: {fileID: 0}
+  advantageText: {fileID: 0}
+  checkButton: {fileID: 0}
+  checkButtonText: {fileID: 0}
+  playerPlayPanel: {fileID: 0}
+  opponentPlayPanel: {fileID: 0}
+--- !u!114 &3245387626437400878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3245387626437400867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d27e6b5a363a3649adc479493561c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

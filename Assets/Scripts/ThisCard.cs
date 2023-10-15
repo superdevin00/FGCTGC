@@ -63,6 +63,7 @@ public class ThisCard : MonoBehaviour
     {
         playerDeck = GameObject.Find("Deck Panel").GetComponent<PlayerDeck>();
         turnSystem = GameObject.Find("TurnSystemController").GetComponent<TurnSystem>();
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         thisCard[0] = CardDataBase.cardList[thisId];
         numberOfCardsInDeck = playerDeck.deckSize;
     }
@@ -176,7 +177,7 @@ public class ThisCard : MonoBehaviour
         else canBePlayed = false;
 
         //Turn off dragging if card cant be played
-        if (canBePlayed == false || turnSystem.isYourTurn == false) 
+        if (canBePlayed == false || gameController.canPlayerPlayCard == false || gameController.isWaitingForOpponent == true) 
         {
             gameObject.GetComponent<Draggable>().enabled = false;
         }

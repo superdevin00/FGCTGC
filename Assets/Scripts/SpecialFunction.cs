@@ -12,20 +12,27 @@ public class SpecialFunction : MonoBehaviour
 
     public void checkSpecialFunctionStep(Card card, int frame)
     {
-        switch (card.cardName)
+        if (card != null)
         {
-            case "Solar Plexus Strike": SolarPlexusStrike(frame); break;
-            default: break;
+            switch (card.cardName)
+            {
+                case "Solar Plexus Strike": SolarPlexusStrike(frame); break;
+                default: break;
+            }
+
         }
     }
 
     public void checkSpecialFunctionHit(Card card, bool cardHit, string target)
     {
-        switch (card.cardName)
+        if (card != null)
         {
-            case "Palm Strike": PalmStrike(cardHit); break;
-            case "Leg Sweep": LegSweep(cardHit, target); break;
-            default: break;
+            switch (card.cardName)
+            {
+                case "Palm Strike": PalmStrike(cardHit); break;
+                case "Leg Sweep": LegSweep(cardHit, target); break;
+                default: break;
+            }
         }
     }
 
