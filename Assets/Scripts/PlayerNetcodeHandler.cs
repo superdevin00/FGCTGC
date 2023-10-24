@@ -21,20 +21,8 @@ public class PlayerNetcodeHandler : NetworkBehaviour
     public NetworkVariable<bool> canPlayCard = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> isCheckingWinner = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> checkWinnerStep = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
-    public override void OnNetworkSpawn()
-    {   
-        //Check if opponent is ready
-        /*opponentData.turnReady.OnValueChanged += (bool oldval, bool newval) =>
-        {
-            SetOpponentReady(newval);
-        };
-        //Check opponents played card
-        opponentData.cardPlayedID.OnValueChanged += (int oldval, int newval) =>
-        {
-            SetOpponentCardId(newval);
-        };*/
-    }
+    public NetworkVariable<int> turnSync = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> neutralSync = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     // Start is called before the first frame update
     void Start()
@@ -72,18 +60,13 @@ public class PlayerNetcodeHandler : NetworkBehaviour
             else
             {
                 opponentData = opponent.GetComponent<PlayerNetcodeHandler>();
-                SetOpponentReady(opponentData.turnReady.Value);
-                SetCanOpponentPlayCard(opponentData.canPlayCard.Value);
-                SetOpponentIsCheckingWinner(opponentData.isCheckingWinner.Value);
-                SetOpponentCheckWinnerStep(opponentData.checkWinnerStep.Value);
+                SetOpponentNetVar(opponentData);
             }
         }
 
         if (opponent != null)
         {
-            canPlayCard.Value = (gameController.playerCard != null)? true : false;
-            isCheckingWinner.Value = gameController.isCheckingWinner;
-            checkWinnerStep.Value = gameController.checkWinnerStep;
+            GetPlayerNetVar();
 
             if (IsClient)
             {
@@ -122,7 +105,7 @@ public class PlayerNetcodeHandler : NetworkBehaviour
         }
     }
 
-    public void SetOpponentReady(bool isReady)
+    /*public void SetOpponentReady(bool isReady)
     {
         gameController.opponentReady = isReady;
         SetOpponentCardId(opponentData.cardPlayedID.Value);
@@ -142,5 +125,32 @@ public class PlayerNetcodeHandler : NetworkBehaviour
     public void SetOpponentCheckWinnerStep(int step)
     {
         gameController.opponentCheckWinnerStep = step;
+    }
+    public void SetOpponentTurnSync(int turn)
+    {
+        gameController.opponentTurnSync = turn;
+    }
+    public void SetOpponentNeutralSync(int neutral)
+    {
+        gameController.opponentNeutralSync = neutral;
+    }*/
+
+    public void GetPlayerNetVar()
+    {
+        canPlayCard.Value = (gameController.playerCard != null) ? true : false;
+        isCheckingWinner.Value = gameController.isCheckingWinner;
+        checkWinnerStep.Value = gameController.checkWinnerStep;
+        turnSync.Value = gameController.playerTurnSync;
+        neutralSync.Value = gameController.playerNeutralSync;
+    }
+    public void SetOpponentNetVar(PlayerNetcodeHandler oppData)
+    {
+        gameController.opponentReady = oppData.turnReady.Value;
+        gameController.opponentCardID = oppData.cardPlayedID.Value;
+        gameController.canOpponentPlayCard = oppData.canPlayCard.Value;
+        gameController.isOpponentCheckingWinner = oppData.isCheckingWinner.Value;
+        gameController.opponentCheckWinnerStep = oppData.checkWinnerStep.Value;
+        gameController.opponentTurnSync = oppData.turnSync.Value;
+        gameController.opponentNeutralSync = oppData.neutralSync.Value;
     }
 }

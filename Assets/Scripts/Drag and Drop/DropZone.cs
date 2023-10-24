@@ -20,10 +20,17 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                     swapCard = GetComponentInChildren<Draggable>().gameObject;
                     swapCard.transform.SetParent(d.parentToReturnTo);
                     swapCard.transform.SetSiblingIndex(d.placeholder.transform.GetSiblingIndex());
-                    //return;
+                    d.parentToReturnTo = this.transform;
                 }
-
-                d.parentToReturnTo = this.transform;
+                else if (name == "Deck Build" && transform.childCount > 20) //Return if Deck is full
+                {
+                    Destroy(d.placeholder);
+                    Destroy(d.gameObject);
+                }
+                else
+                {
+                    d.parentToReturnTo = this.transform;
+                }
             }
         }
     }

@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BayatGames.SaveGameFree;
 
 public class PlayerDeck : MonoBehaviour
 {
 
     public List<Card> deck = new List<Card>();
-    public List<Card> container = new List<Card>();
+    public Card container;
     public static List<Card> staticDeck = new List<Card>();
 
     public int x;
@@ -27,19 +28,11 @@ public class PlayerDeck : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        
+    { 
         x = 0;
         deckSize = 22;
 
-        for(int i=0; i<deckSize - 2; i++ )
-        {
-            x = Random.Range(2, 7);
-            deck[i] = CardDataBase.cardList[x];
-        }
-        deck[deckSize-1] = CardDataBase.cardList[0];
-        deck[deckSize-2] = CardDataBase.cardList[1];
-        //deck[]
+        LoadPlayerDeck();
 
         StartCoroutine(StartGame());
     }
@@ -73,6 +66,36 @@ public class PlayerDeck : MonoBehaviour
         }
     }
 
+    private void LoadPlayerDeck()
+    {
+        //Load Deck
+        deck = SaveGame.Load<List<Card>>("Deck");
+
+        //Randomize if no deck set
+        if (deck == null)
+        {
+            Debug.Log("DeckRandom");
+            for (int i = 0; i < deckSize - 2; i++)
+            {
+                x = Random.Range(2, 7);
+                deck.Add(CardDataBase.cardList[x]);
+            }
+            
+        }
+        else
+        {
+            Debug.Log("NotRandom");
+        }
+
+        Debug.Log(deck.Count);
+        //Shuffle
+        Shuffle();
+
+        //Add Block and Grab
+        deck.Add(CardDataBase.cardList[0]);
+        deck.Add(CardDataBase.cardList[1]);
+    }
+
     IEnumerator Example()
     {
         yield return new WaitForSeconds(1);
@@ -86,11 +109,6 @@ public class PlayerDeck : MonoBehaviour
 
     IEnumerator StartGame()
     {
-        /*GameObject blockCard = Instantiate(cardToHand, transform.position, transform.rotation);
-        GameObject grabCard = Instantiate(cardToHand, transform.position, transform.rotation);
-        blockCard.GetComponent<ThisCard>().thisCard[0] = CardDataBase.cardList[0];
-        blockCard.GetComponent<ThisCard>().thisCard[0] = CardDataBase.cardList[1];*/
-
         for (int i =0;i<7;i++)
         {
             yield return new WaitForSeconds(0.2f);
@@ -101,15 +119,18 @@ public class PlayerDeck : MonoBehaviour
 
     public void Shuffle()
     {
-        for(int i = 0; i < deckSize; i++)
+        Debug.Log("StartShuffle");
+        for (int i = 0; i < deck.Count - 1; i++)
         {
-            container[0] = deck[i];
-            int randomIndex = Random.Range(i, deckSize);
+            Debug.Log("ShuffleStep");
+            container = deck[i];
+            int randomIndex = Random.Range(i, deck.Count - 1);
             deck[i] = deck[randomIndex];
-            deck[randomIndex] = container[0];
+            deck[randomIndex] = container;
+            
         }
-        Instantiate(cardBack, transform.position, transform.rotation);
-        StartCoroutine(Example());
+        //Instantiate(cardBack, transform.position, transform.rotation);
+        //StartCoroutine(Example());
     }
 
     public void Draw(int x)

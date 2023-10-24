@@ -103,6 +103,7 @@ public class ThatCard : MonoBehaviour
             case "Attack": frameColor = Color.red; break;
             case "Block": frameColor = Color.blue; break;
             case "Grab": frameColor = Color.green; break;
+            case "Special": frameColor = Color.magenta; break;
 
             default: frameColor = Color.white; break;
         }

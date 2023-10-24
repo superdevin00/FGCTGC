@@ -23,12 +23,13 @@ public class SpecialFunction : MonoBehaviour
         }
     }
 
-    public void checkSpecialFunctionHit(Card card, bool cardHit, string target)
+    public void checkSpecialFunctionHit(Card card, bool cardHit, string target, bool cardBlocked)
     {
-        if (card != null)
+        if (card != null && !cardBlocked)
         {
             switch (card.cardName)
             {
+                case "Grab": Grab(cardHit, target); break;
                 case "Palm Strike": PalmStrike(cardHit); break;
                 case "Leg Sweep": LegSweep(cardHit, target); break;
                 default: break;
@@ -36,6 +37,14 @@ public class SpecialFunction : MonoBehaviour
         }
     }
 
+
+    public void Grab(bool cardHit, string target)
+    {
+        if (cardHit)
+        {
+            gameController.Knockdown(target);
+        }
+    }
     public void LegSweep(bool cardHit, string target)
     { 
         if (cardHit)

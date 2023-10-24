@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ThisCard : MonoBehaviour
 {
@@ -57,28 +58,76 @@ public class ThisCard : MonoBehaviour
     public bool isInDiscard;
     public GameController gameController;
     public TurnSystem turnSystem;
+    public Animator animator;
+    public Animation flipAnim;
+    public bool alreadyFlipped;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerDeck = GameObject.Find("Deck Panel").GetComponent<PlayerDeck>();
-        turnSystem = GameObject.Find("TurnSystemController").GetComponent<TurnSystem>();
-        gameController = GameObject.Find("GameController").GetComponent<GameController>();
-        thisCard[0] = CardDataBase.cardList[thisId];
-        numberOfCardsInDeck = playerDeck.deckSize;
+        cardBackScript = GetComponent<CardBack>();
+        //thisCard[0] = CardDataBase.cardList[thisId];
+        canBePlayed = true;
+
+        if (SceneManager.GetActiveScene().name == "Gameplay")
+        {
+            alreadyFlipped = false;
+            playerDeck = GameObject.Find("Deck Panel").GetComponent<PlayerDeck>();
+            playZone = GameObject.Find("Play Panel");
+            turnSystem = GameObject.Find("TurnSystemController").GetComponent<TurnSystem>();
+            gameController = GameObject.Find("GameController").GetComponent<GameController>();
+            flipAnim = GetComponent<Animation>();
+            animator = GetComponent<Animator>();
+
+            numberOfCardsInDeck = playerDeck.deckSize;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        Hand = GameObject.Find("Hand Panel");
-        if(this.transform.parent == Hand.transform)
+
+
+        //Check where this card is
+        if (SceneManager.GetActiveScene().name == "Gameplay")
         {
-            cardBack = false;
+            Hand = GameObject.Find("Hand Panel");
+
+            if (gameObject.transform.parent == Hand.transform && gameController.isWaitingForOpponent == false && cardBackScript.GetCardBackActive() == true && alreadyFlipped == false)
+            {
+                Debug.Log("Try to Flip");
+                StartCoroutine(FlipCardAnim());
+                alreadyFlipped = true;
+            }
+
+            UpdateGameplay();
 
         }
+        else if (SceneManager.GetActiveScene().name == "DeckBuilder")
+        {
+            cardBackScript.UpdateCard(false);
+            if (this.tag == "Clone")
+            {
+                if (thisCard[0].id >= 0)
+                {
+                    thisCard[0] = CardDataBase.cardList[thisId];
+                }
+                //cardBack = false;
+                this.tag = "Untagged";
+            }
+        }
 
-        cardBackScript = GetComponent<CardBack>();
+        //Update all of the cards visual features
+        UpdateCardVisuals();
+
+        //Update if card can be dragged
+        UpdateCardDrag();
+
+
+    }
+
+    private void UpdateCardVisuals()
+    {
         id = thisCard[0].id;
         cardName = thisCard[0].cardName;
         cardStyles = thisCard[0].cardStyles;
@@ -110,6 +159,7 @@ public class ThisCard : MonoBehaviour
             case "Attack": frameColor = Color.red; break;
             case "Block": frameColor = Color.blue; break;
             case "Grab": frameColor = Color.green; break;
+            case "Special": frameColor = Color.magenta; break;
 
             default: frameColor = Color.white; break;
         }
@@ -155,10 +205,32 @@ public class ThisCard : MonoBehaviour
             attackStats.SetActive(true);
         }
 
-        cardBackScript.UpdateCard(cardBack);
-        staticCardBack = cardBack;
 
-        if(this.tag == "Clone")
+        staticCardBack = cardBack;
+    }
+
+    private void UpdateCardDrag()
+    {
+        //Control Card Drag in gameplay Scenes
+        if (SceneManager.GetActiveScene().name == "Gameplay")
+        {
+            //Turn off dragging if card cant be played
+            if (canBePlayed == false || gameController.canPlayerPlayCard == false || gameController.isWaitingForOpponent == true)
+            {
+                gameObject.GetComponent<Draggable>().enabled = false;
+            }
+            else gameObject.GetComponent<Draggable>().enabled = true;
+        }
+        //Control Card Drag in Deck Builder
+        else if (SceneManager.GetActiveScene().name == "Deck Builder")
+        {
+            gameObject.GetComponent<Draggable>().enabled = true;
+        }
+    }
+
+    private void UpdateGameplay()
+    {
+        if (this.tag == "Clone")
         {
             if (thisCard[0].id >= 0)
             {
@@ -175,21 +247,8 @@ public class ThisCard : MonoBehaviour
             canBePlayed = true;
         }
         else canBePlayed = false;
-
-        //Turn off dragging if card cant be played
-        if (canBePlayed == false || gameController.canPlayerPlayCard == false || gameController.isWaitingForOpponent == true) 
-        {
-            gameObject.GetComponent<Draggable>().enabled = false;
-        }
-        else gameObject.GetComponent<Draggable>().enabled = true;
-
-        playZone = GameObject.Find("Play Panel");
-
-        if(this.transform.parent == playZone.transform)
-        {
-
-        }
     }
+
     public void DiscardCard()
     {
         //Dont Discard block or grab
@@ -205,5 +264,17 @@ public class ThisCard : MonoBehaviour
             this.transform.SetParent(Discard.transform);
             isInDiscard = true;
         }
+    }
+
+    public IEnumerator FlipCardAnim()
+    {
+        
+        animator.SetTrigger("Flip");
+
+        while (flipAnim.IsPlaying("CardFlip"))
+        {
+            yield return null;
+        }
+
     }
 }

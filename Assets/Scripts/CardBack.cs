@@ -10,4 +10,9 @@ public class CardBack : MonoBehaviour
     {
         cardBack.SetActive(updown);
     }
+
+    public bool GetCardBackActive()
+    {
+        return cardBack.activeSelf;
+    }
 }

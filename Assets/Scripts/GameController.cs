@@ -15,6 +15,11 @@ public class GameController : MonoBehaviour
     public OpponentDeck oppDeck;
     public int playerAdv;
 
+    public int playerTurnSync;
+    public int opponentTurnSync;
+    public int playerNeutralSync;
+    public int opponentNeutralSync;
+
     public int playerHealth;
     public int opponentHealth;
 
@@ -42,6 +47,8 @@ public class GameController : MonoBehaviour
 
     public GameObject checkButton;
     public TMP_Text checkButtonText;
+    public GameObject returnToNeutralButton;
+
     public GameObject waitingForOpponentText;
     public GameObject playerPlayPanel;
     public GameObject opponentPlayPanel;
@@ -54,6 +61,7 @@ public class GameController : MonoBehaviour
     public bool isWaitingForOpponent;
     public bool playerReady;
     public bool opponentReady;
+    public bool playerStunned;
     public int opponentCardID;
     public TMP_Text readyText;
 
@@ -63,6 +71,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerStunned = false;
         isCheckingWinner = false;
         checkWinnerStep = 0;
         oppDeck = GameObject.Find("Opponent Deck Panel").GetComponent<OpponentDeck>();
@@ -83,8 +92,24 @@ public class GameController : MonoBehaviour
         advantageText.text = (playerAdv > 0) ? "+" + playerAdv : playerAdv.ToString();
         rangeText.text = currentRange.ToString();
         UpdateCheckWinnerButton();
-        readyText.gameObject.SetActive(playerReady);
-        
+        UpdateNeutralButton();
+
+        //Set splash text
+        if (playerStunned)
+        {
+            readyText.text = "Stunned!";
+            readyText.gameObject.SetActive(true);
+        }
+        else if (playerReady)
+        {
+            readyText.text = "Player Ready";
+            readyText.gameObject.SetActive(true);
+        }
+        else
+        {
+            readyText.gameObject.SetActive(false);
+        }
+
         //Check if waiting for opponent to join
         if (NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerNetcodeHandler>().opponent != null)
         {
@@ -98,13 +123,6 @@ public class GameController : MonoBehaviour
             Debug.Log("TryPlace");
             oppDeck.playOpponentCard(opponentCardID);
         }
-
-        //Get rid of a card that isnt supposed to be there
-        /*if (canOpponentPlayCard == false && GameObject.Find("Opponent Card Panel").transform.childCount > 0 && !isCheckingWinner && !isOpponentCheckingWinner)
-        {
-            Debug.Log("Cleanup");
-            GameObject.Find("Opponent Card Panel").GetComponentInChildren<ThatCard>().DiscardCard();
-        }*/
 
         //set player card stuff
         if (playerPlayPanel.transform.childCount != 0 && playerPlayPanel.GetComponentInChildren<ThisCard>() != null)
@@ -128,8 +146,20 @@ public class GameController : MonoBehaviour
             opponentCardObject = null;
         }
 
+        //Check if opponent returned to neutral
+        if(playerStunned && opponentNeutralSync == playerNeutralSync + 1)
+        {
+            ManualReturnToNeutral();
+        }
+        //Check if player is stunned to see if it will be a mixup or combo
+        else if (playerStunned && (opponentReady || isOpponentCheckingWinner) && playerTurnSync + 1 == opponentTurnSync)
+        {
+            Debug.Log("CheckThisMix");
+            CheckForMixup();
+        }
+
         //When all players ready, check who won
-        if (playerReady && (opponentReady||isOpponentCheckingWinner) && !isCheckingWinner && !isSameWinCheck)
+        if (playerReady && (opponentReady||isOpponentCheckingWinner) && !isCheckingWinner && !isSameWinCheck && playerTurnSync == opponentTurnSync && !playerStunned)
         {
             StartCoroutine(CheckForWinnerRoutine());
         }
@@ -146,7 +176,7 @@ public class GameController : MonoBehaviour
         else if (gamePhase == "Neutral" || gamePhase == "Knockdown")
         {
             //Make button visible if both player and opponent have card played
-            if (playerPlayPanel.transform.childCount > 0 /*&& opponentPlayPanel.transform.childCount > 0*/)
+            if (playerPlayPanel.transform.childCount > 0)
             {
                 checkButton.SetActive(true);
                 checkButtonText.text = "Play";
@@ -163,7 +193,7 @@ public class GameController : MonoBehaviour
                 if (playerCard != null)
                 {              
                     //Check if it will be a true combo
-                    if (playerCard.startUp <= playerAdv)
+                    if (playerCard.startUp <= playerAdv && playerCard.cardType != "Block" && playerCard.cardType != "Grab")
                     {
                         checkButton.SetActive(true);
                         checkButtonText.text = "Combo";
@@ -181,9 +211,22 @@ public class GameController : MonoBehaviour
             }
         }
     }
+    public void UpdateNeutralButton()
+    {
+        //Update button for neutral phase
+        if (isWaitingForOpponent || playerReady || playerStunned || gamePhase == "Neutral")
+        {
+            returnToNeutralButton.SetActive(false);
+        }
+        else if (gamePhase == "Punish" || gamePhase == "Knockdown")
+        {
+            returnToNeutralButton.SetActive(true);
+        }
+    }
 
     public void PlayerReady()
     {
+        playerTurnSync += 1;
         canPlayerPlayCard = false;
         playerReady = true;
     }
@@ -209,7 +252,7 @@ public class GameController : MonoBehaviour
         playerBlock = false;
         opponentBlock = false;
 
-        if(gamePhase == "Neutral" || gamePhase == "Knockdown")
+        if(gamePhase == "Neutral" || gamePhase == "Knockdown" || gamePhase == "Mixup")
         {
             yield return new WaitUntil(NeutralPhase);
             Debug.Log("Moving on");
@@ -217,13 +260,27 @@ public class GameController : MonoBehaviour
         else if (gamePhase == "Punish")
         {
             yield return new WaitUntil(PunishPhase);
+
+            //If player is doing mixup
+            if(gamePhase == "Mixup")
+            {
+                yield return new WaitUntil(NeutralPhase);
+            }
         }
 
 
         //Determine the interaction winner text
-        if (playerHit && opponentHit)
+        if (gamePhase == "Mixup")
+        {
+            interactionWinner = "Mixup";
+        }
+        else if (playerHit && opponentHit)
         {
             interactionWinner = "Trade";
+        }
+        else if (playerBlock || opponentBlock)
+        {
+            interactionWinner = "Attack Blocked";
         }
         else if (playerHit)
         {
@@ -264,17 +321,11 @@ public class GameController : MonoBehaviour
             }
         }
 
-        //Check for any special functions that trigger on hit/whiff
-        specialFunction.checkSpecialFunctionHit(playerCard, playerHit, "Opponent");
-        specialFunction.checkSpecialFunctionHit(opponentCard, opponentHit, "Player");
+        specialFunction.checkSpecialFunctionHit(playerCard, playerHit, "Opponent", opponentBlock);
+        specialFunction.checkSpecialFunctionHit(opponentCard, opponentHit, "Player", playerBlock);
+
 
         winnerText.text = interactionWinner;
-/*        
-        while (isOpponentCheckingWinner) 
-        {
-            yield return new WaitForSeconds(0.1f);
-        }*/
-
         isCheckingWinner = false;
         checkWinnerStep = 2;
 
@@ -287,20 +338,23 @@ public class GameController : MonoBehaviour
         {
             isSameWinCheck = false;
             Debug.Log("Try Discard");
-            if (playerCard != null)
-            {
-                playerCardObject.GetComponent<ThisCard>().DiscardCard();
-            }
-            if (opponentCard != null)
-            {
-                opponentCardObject.GetComponent<ThatCard>().DiscardCard();
-            }
+            /*if (gamePhase != "Mixup")
+            {*/
+                if (playerCard != null)
+                {
+                    playerCardObject.GetComponent<ThisCard>().DiscardCard();
+                }
+                if (opponentCard != null)
+                {
+                    opponentCardObject.GetComponent<ThatCard>().DiscardCard();
+                }
+            //}
             DetermineNextGamePhase();
         }
 
         //Prevent Accidental Opp Card Placement
         checkWinnerStep = 3;
-        while(opponentCheckWinnerStep < 3)
+        while(opponentCheckWinnerStep < 3 && isOpponentCheckingWinner)
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -310,15 +364,55 @@ public class GameController : MonoBehaviour
     public void DetermineNextGamePhase()
     {
         Debug.Log("DetermineNextGamePhase");
-        playerAdv = (playerHit ? playerCard.hitAdv : 0) - (opponentHit ? opponentCard.hitAdv : 0);
 
+        //playerAdv = (playerHit ? playerCard.hitAdv : 0) - (opponentHit ? opponentCard.hitAdv : 0);
+
+        // SET PLAYER ADV
+        //Retain player adv if mixup
+        if (gamePhase != "Mixup")
+        {
+            //If only the player hit
+            if (playerHit && !opponentHit)
+            {
+                //If it was blocked, give block adv
+                if (opponentBlock)
+                {
+                    playerAdv = playerCard.blockAdv;
+                }
+                //If not, give hit adv
+                else
+                {
+                    playerAdv = playerCard.hitAdv;
+                }
+            }
+            //If only opponent hit
+            else if (!playerHit && opponentHit)
+            {
+                //If it was blocked, give block adv
+                if (playerBlock)
+                {
+                    playerAdv = -opponentCard.blockAdv;
+                }
+                //If not, give hit adv
+                else
+                {
+                    playerAdv = -opponentCard.hitAdv;
+                }
+            }
+            else if (playerHit && opponentHit && !(playerBlock || opponentBlock))
+            {
+                playerAdv = playerCard.hitAdv - opponentCard.hitAdv;
+            }
+        }
+
+        //Determine next phase
         if (isKnockdown)
         {
             gamePhase = "Knockdown";
             isKnockdown = false;
             ReturnToNeutral();
         }
-        else if (playerHit || opponentHit && !(playerBlock || opponentBlock))
+        else if (playerHit || opponentHit)
         {
             if (playerAdv != 0)
             {
@@ -344,19 +438,25 @@ public class GameController : MonoBehaviour
         }
         else if (gamePhase != "Knockdown")
         {
-            //force player ready if they are negative and not knockdown
-            PlayerReady();
+            //force player stun if they are negative and not knockdown
+            playerStunned = true;
+            canPlayerPlayCard = false;
         }
-
-
-
     }
 
     public void ReturnToNeutral()
     {
-        //oppDeck.Draw(1);
         playerDeck.DrawTo(7);
-        
+    }
+
+    public void ManualReturnToNeutral()
+    {
+        playerNeutralSync++;
+        playerAdv = 0;
+        gamePhase = "Neutral";
+        playerStunned = false;
+        playerDeck.DrawTo(7);
+        canPlayerPlayCard = true;
     }
 
     public void Knockdown(string target)
@@ -417,6 +517,15 @@ public class GameController : MonoBehaviour
             return false;
         }
 
+        //Set Advantage to frame before startup if startup is faster than advantage for whatever reason
+        if (playerAdv > 0 && playerCard.startUp <= playerAdv)
+        {
+            playerAdv = playerCard.startUp - 1;
+        }
+        else if(playerAdv < 0 && opponentCard.startUp <= -playerAdv)
+        {
+            playerAdv = -(opponentCard.startUp - 1);
+        }
 
         //Set the last frame we check to the card that has the longest recovery
         if (playerCard.recovery + (playerAdv < 0? -playerAdv : 0) >= opponentCard.recovery + (playerAdv > 0? playerAdv:0))
@@ -442,11 +551,11 @@ public class GameController : MonoBehaviour
             specialFunction.checkSpecialFunctionStep(opponentCard, frame);
 
             //Check if within range during startup frame
-            if (playerCard.startUp + (playerAdv < 0 ? -playerAdv : 0) == frame && playerCard.range >= currentRange && playerCard.cardName != "Block")
+            if (playerCard.startUp + (playerAdv < 0 ? -playerAdv : 0) == frame && playerCard.range >= currentRange && playerCard.cardName != "Block" && playerCard.damage > 0)
             {
                 playerHit = true;
             }
-            if (opponentCard.startUp + (playerAdv > 0 ? playerAdv : 0) == frame && opponentCard.range >= currentRange && opponentCard.cardName != "Block")
+            if (opponentCard.startUp + (playerAdv > 0 ? playerAdv : 0) == frame && opponentCard.range >= currentRange && opponentCard.cardName != "Block" && opponentCard.damage > 0)
             {
                 opponentHit = true;
             }
@@ -460,9 +569,44 @@ public class GameController : MonoBehaviour
             {
                 playerBlock = true;
             }
+
+            //Check grab logic
+            if(playerCard.cardName == "Grab" && opponentCard.cardName == "Grab")
+            {
+                playerHit = false;
+                opponentHit = false;
+                break;
+            }
+            else if (playerCard.cardName == "Grab")
+            {
+                if (opponentBlock)
+                {
+                    opponentBlock = false;
+                }
+
+                //Grab loses if atack lands on same frame
+                if (opponentHit)
+                {
+                    playerHit = false;
+                }
+            }
+            else if (opponentCard.cardName == "Grab")
+            {
+                if (playerBlock)
+                {
+                    playerBlock = false;
+                }
+
+                //Grab loses if atack lands on same frame
+                if (playerHit)
+                {
+                    opponentHit = false;
+                }
+            }
         }
         return true;
     }
+
 
     public bool PunishPhase()
     {
@@ -472,7 +616,7 @@ public class GameController : MonoBehaviour
             playerCard = GameObject.Find("Play Panel").GetComponentInChildren<ThisCard>().thisCard[0];
             playerCardObject = GameObject.Find("Play Panel").GetComponentInChildren<ThisCard>().gameObject;
 
-            if (playerCard.startUp <= playerAdv)
+            if (playerCard.startUp <= playerAdv && playerCard.cardType != "Block" && playerCard.cardType != "Grab")
             {
                 Debug.Log("Combo");
                 lastFrame = playerCard.recovery + (playerAdv < 0 ? -playerAdv : 0);
@@ -490,7 +634,7 @@ public class GameController : MonoBehaviour
                     specialFunction.checkSpecialFunctionStep(playerCard, frame);
 
                     //Check if within range during startup frame
-                    if (playerCard.startUp == frame && playerCard.range >= currentRange && playerCard.cardName != "Block")
+                    if (playerCard.startUp == frame && playerCard.range >= currentRange && playerCard.cardName != "Block" && playerCard.damage > 0)
                     {
                         playerHit = true;
                     }
@@ -499,7 +643,8 @@ public class GameController : MonoBehaviour
             else
             {
                 Debug.Log("Mixup");
-                NeutralPhase();
+                gamePhase = "Mixup";
+
             }
         }
         else if (playerAdv < 0)
@@ -541,7 +686,7 @@ public class GameController : MonoBehaviour
                     specialFunction.checkSpecialFunctionStep(opponentCard, frame);
 
                     //Check if within range during startup frame
-                    if (opponentCard.startUp + (playerAdv > 0 ? playerAdv : 0) == frame && opponentCard.range >= currentRange && opponentCard.cardName != "Block")
+                    if (opponentCard.startUp + (playerAdv > 0 ? playerAdv : 0) == frame && opponentCard.range >= currentRange && opponentCard.cardName != "Block" && opponentCard.damage > 0)
                     {
                         opponentHit = true;
                     }
@@ -551,14 +696,35 @@ public class GameController : MonoBehaviour
             {
                 Debug.Log("Mixup");
                 canPlayerPlayCard = true;
-                NeutralPhase();
+                gamePhase = "Mixup";
             }
         }
         return true;
     }
 
-    public void MixupPhase()
+    public void CheckForMixup()
     {
-
+        if (GameObject.Find("Opponent Card Panel").GetComponentInChildren<ThatCard>() != null)
+        {
+            opponentCard = GameObject.Find("Opponent Card Panel").GetComponentInChildren<ThatCard>().thatCard[0];
+            opponentCardObject = GameObject.Find("Opponent Card Panel").GetComponentInChildren<ThatCard>().gameObject;
+        }
+        if (opponentCard != null)
+        {
+            if (Mathf.Abs(playerAdv) >= opponentCard.startUp)
+            {
+                //Combo
+                PlayerReady();
+                playerStunned = false;
+                gamePhase = "Punish";
+            }
+            else
+            {
+                //Mixup
+                playerStunned = false;
+                canPlayerPlayCard = true;
+                gamePhase = "Mixup";
+            }
+        }
     }
 }

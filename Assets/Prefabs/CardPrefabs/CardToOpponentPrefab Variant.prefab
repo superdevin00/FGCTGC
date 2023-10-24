@@ -231,7 +231,7 @@ MonoBehaviour:
   thatSprite: {fileID: 0}
   thatImage: {fileID: 605755800574864326}
   frame: {fileID: 605755799182555681}
-  cardBack: 0
+  cardBack: 1
   Hand: {fileID: 0}
   opponentDeck: {fileID: 0}
   numberOfCardsInDeck: 0
