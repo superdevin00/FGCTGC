@@ -32,6 +32,7 @@ public class SpecialFunction : MonoBehaviour
                 case "Grab": Grab(cardHit, target); break;
                 case "Palm Strike": PalmStrike(cardHit); break;
                 case "Leg Sweep": LegSweep(cardHit, target); break;
+                case "Flicker Jabs": FlickerJabs(cardHit,target); break;
                 default: break;
             }
         }
@@ -66,6 +67,31 @@ public class SpecialFunction : MonoBehaviour
         if (frame == 5)
         {
             gameController.AddToRange(-1);
+        }
+    }
+
+    public void FlickerJabs(bool cardHit, string target)
+    {
+        if(cardHit)
+        {
+            //Player attacks
+            if (target == "Opponent")
+            {
+                while(Random.Range(0,2) != 0 && gameController.playerBonusDamage < 100)
+                {
+                    gameController.playerBonusDamage += gameController.playerCard.damage;
+                    gameController.playerBonusAdvantage += gameController.playerCard.hitAdv;
+                }
+            }
+            //Opponent attacks
+            /*else if (target == "Player")
+            {
+                while (Random.Range(0, 2) != 0 && gameController.opponentBonusDamage < 100)
+                {
+                    gameController.opponentBonusDamage += gameController.opponentCard.damage;
+                    gameController.opponentBonusAdvantage += gameController.opponentCard.hitAdv;
+                }
+            }*/
         }
     }
 }

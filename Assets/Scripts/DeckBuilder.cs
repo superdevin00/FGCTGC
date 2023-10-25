@@ -9,7 +9,7 @@ public class DeckBuilder : MonoBehaviour
     private TMP_Text deckCountText;
     private TMP_Text errorMessage;
     private int deckCount;
-    public List<Card> deck = new List<Card>();
+    public List<int> deck = new List<int>();
 
     // Start is called before the first frame update
     void Start()
@@ -43,10 +43,10 @@ public class DeckBuilder : MonoBehaviour
                 Debug.Log("Try Save");
                 /*Debug.Log(gameObject.transform.GetChild(i).GetComponent<ThisCard>().id);
                 Debug.Log(i);*/
-                deck.Add(CardDataBase.cardList[gameObject.transform.GetChild(i).GetComponent<ThisCard>().id]);
+                deck.Add(gameObject.transform.GetChild(i).GetComponent<ThisCard>().id);
             }
-
-            SaveGame.Save<List<Card>>("Deck", deck);
+            SaveGame.Delete("Deck");
+            SaveGame.Save("Deck", deck);
         }
     }
 

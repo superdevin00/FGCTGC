@@ -23,6 +23,8 @@ public class PlayerNetcodeHandler : NetworkBehaviour
     public NetworkVariable<int> checkWinnerStep = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> turnSync = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> neutralSync = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> bonusDamage = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> bonusAdvantage = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     // Start is called before the first frame update
     void Start()
@@ -142,6 +144,8 @@ public class PlayerNetcodeHandler : NetworkBehaviour
         checkWinnerStep.Value = gameController.checkWinnerStep;
         turnSync.Value = gameController.playerTurnSync;
         neutralSync.Value = gameController.playerNeutralSync;
+        bonusDamage.Value = gameController.playerBonusDamage;
+        bonusAdvantage.Value = gameController.playerBonusAdvantage;
     }
     public void SetOpponentNetVar(PlayerNetcodeHandler oppData)
     {
@@ -152,5 +156,7 @@ public class PlayerNetcodeHandler : NetworkBehaviour
         gameController.opponentCheckWinnerStep = oppData.checkWinnerStep.Value;
         gameController.opponentTurnSync = oppData.turnSync.Value;
         gameController.opponentNeutralSync = oppData.neutralSync.Value;
+        gameController.opponentBonusDamage = oppData.bonusDamage.Value;
+        gameController.opponentBonusAdvantage = oppData.bonusAdvantage.Value;
     }
 }

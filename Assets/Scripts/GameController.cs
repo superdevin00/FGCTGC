@@ -15,24 +15,32 @@ public class GameController : MonoBehaviour
     public OpponentDeck oppDeck;
     public int playerAdv;
 
+    //SYNC TRACKERS
     public int playerTurnSync;
     public int opponentTurnSync;
     public int playerNeutralSync;
     public int opponentNeutralSync;
 
+
+    //HEALTH
     public int playerHealth;
     public int opponentHealth;
+    public Image playerHealthBar;
+    public Image opponentHealthBar;
 
+    //FRAMES
     public int currentFrame;
     public int lastFrame;
     public int playerFrameToContinue;
     public int opponentFrameToContinue;
 
+    //HIT CHECKS
     public bool playerHit;
     public bool opponentHit;
     public bool playerBlock;
     public bool opponentBlock;
 
+    //PHASE MANAGERS
     private string interactionWinner;
     public string gamePhase;
     public bool isKnockdown;
@@ -41,6 +49,7 @@ public class GameController : MonoBehaviour
 
     public int currentRange;
 
+    //UI
     public TMP_Text winnerText;
     public TMP_Text rangeText;
     public TMP_Text advantageText;
@@ -53,6 +62,7 @@ public class GameController : MonoBehaviour
     public GameObject playerPlayPanel;
     public GameObject opponentPlayPanel;
 
+    //READY
     public bool isCheckingWinner;
     public bool isSameWinCheck;
     public int checkWinnerStep;
@@ -65,8 +75,12 @@ public class GameController : MonoBehaviour
     public int opponentCardID;
     public TMP_Text readyText;
 
-
+    //SPECIAL FUNCTIONS
     SpecialFunction specialFunction;
+    public int playerBonusDamage;
+    public int playerBonusAdvantage;
+    public int opponentBonusDamage;
+    public int opponentBonusAdvantage;
 
     // Start is called before the first frame update
     void Start()
@@ -93,6 +107,7 @@ public class GameController : MonoBehaviour
         rangeText.text = currentRange.ToString();
         UpdateCheckWinnerButton();
         UpdateNeutralButton();
+        UpdateHealthBars();
 
         //Set splash text
         if (playerStunned)
@@ -165,6 +180,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void UpdateHealthBars()
+    {
+        playerHealthBar.fillAmount = (float)playerHealth / 100;
+        opponentHealthBar.fillAmount = (float)opponentHealth / 100;
+    }
     public void UpdateCheckWinnerButton()
     {
         //Update button for neutral phase
@@ -295,17 +315,28 @@ public class GameController : MonoBehaviour
             interactionWinner = "Miss";
         }
 
+        specialFunction.checkSpecialFunctionHit(playerCard, playerHit, "Opponent", opponentBlock);
+        specialFunction.checkSpecialFunctionHit(opponentCard, opponentHit, "Player", playerBlock);
+
+
+        checkWinnerStep = 2;
+        while (opponentCheckWinnerStep<2)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+
         //Deal Damage on hit
-        if(playerHit)
+        if (playerHit)
         {
             //Check if it should do regular dmg or block chip
             if (opponentBlock)
             {
-                DamageOpponent(Mathf.RoundToInt((playerCard.damage / 2) + 0.5f)); //Deal half dmg rounded up on block
+                DamageOpponent(Mathf.RoundToInt((playerCard.damage + playerBonusDamage / 2) + 0.5f)); //Deal half dmg rounded up on block
             }
             else
             {
-                DamageOpponent(playerCard.damage);
+                DamageOpponent(playerCard.damage + playerBonusDamage);
             }
         }
         if(opponentHit)
@@ -313,23 +344,22 @@ public class GameController : MonoBehaviour
             //Check if it should do regular dmg or block chip
             if (playerBlock)
             {
-                DamagePlayer(Mathf.RoundToInt((opponentCard.damage / 2) + 0.5f)); //Deal half dmg rounded up on block
+                DamagePlayer(Mathf.RoundToInt((opponentCard.damage + opponentBonusDamage / 2) + 0.5f)); //Deal half dmg rounded up on block
             }
             else
             {
-                DamagePlayer(opponentCard.damage);
+                DamagePlayer(opponentCard.damage + opponentBonusDamage);
             }
         }
 
-        specialFunction.checkSpecialFunctionHit(playerCard, playerHit, "Opponent", opponentBlock);
-        specialFunction.checkSpecialFunctionHit(opponentCard, opponentHit, "Player", playerBlock);
+
 
 
         winnerText.text = interactionWinner;
         isCheckingWinner = false;
-        checkWinnerStep = 2;
+        checkWinnerStep = 3;
 
-        while (isOpponentCheckingWinner && opponentCheckWinnerStep < 2)
+        while (isOpponentCheckingWinner && opponentCheckWinnerStep < 3)
         {
             Debug.Log("opponent still checking");
             yield return new WaitForSeconds(0.1f);
@@ -352,9 +382,15 @@ public class GameController : MonoBehaviour
             DetermineNextGamePhase();
         }
 
+        //Reset Special Function Bonuses
+        playerBonusAdvantage = 0;
+        playerBonusDamage = 0;
+        opponentBonusAdvantage = 0;
+        opponentBonusDamage = 0;
+
         //Prevent Accidental Opp Card Placement
-        checkWinnerStep = 3;
-        while(opponentCheckWinnerStep < 3 && isOpponentCheckingWinner)
+        checkWinnerStep = 4;
+        while(opponentCheckWinnerStep < 4 && isOpponentCheckingWinner)
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -365,7 +401,6 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("DetermineNextGamePhase");
 
-        //playerAdv = (playerHit ? playerCard.hitAdv : 0) - (opponentHit ? opponentCard.hitAdv : 0);
 
         // SET PLAYER ADV
         //Retain player adv if mixup
@@ -377,12 +412,12 @@ public class GameController : MonoBehaviour
                 //If it was blocked, give block adv
                 if (opponentBlock)
                 {
-                    playerAdv = playerCard.blockAdv;
+                    playerAdv = playerCard.blockAdv + playerBonusAdvantage;
                 }
                 //If not, give hit adv
                 else
                 {
-                    playerAdv = playerCard.hitAdv;
+                    playerAdv = playerCard.hitAdv + playerBonusAdvantage;
                 }
             }
             //If only opponent hit
@@ -391,17 +426,17 @@ public class GameController : MonoBehaviour
                 //If it was blocked, give block adv
                 if (playerBlock)
                 {
-                    playerAdv = -opponentCard.blockAdv;
+                    playerAdv = -(opponentCard.blockAdv + opponentBonusAdvantage);
                 }
                 //If not, give hit adv
                 else
                 {
-                    playerAdv = -opponentCard.hitAdv;
+                    playerAdv = -(opponentCard.hitAdv + opponentBonusAdvantage);
                 }
             }
             else if (playerHit && opponentHit && !(playerBlock || opponentBlock))
             {
-                playerAdv = playerCard.hitAdv - opponentCard.hitAdv;
+                playerAdv = (playerCard.hitAdv + playerBonusAdvantage) - (opponentCard.hitAdv + opponentBonusAdvantage);
             }
         }
 

@@ -19,6 +19,7 @@ public class CardDataBase : MonoBehaviour
         cardList.Add(new Card(5, "Leg Sweep", new int[1] { 0 }, 7, 10, 16, 1,6,-5, "Knockdown", Resources.Load<Sprite>("Images/LegSweepProto"), "Attack"));
         cardList.Add(new Card(6, "Solar Plexus Strike", new int[1] {0}, 8,13,8,0,5,2,"F5: Step In", Resources.Load<Sprite>("Images/StrikeIcon"), "Attack"));
         cardList.Add(new Card(7, "Footsies", new int[1] { 0 }, 5, 10, 8, 2, 6, 2, "", Resources.Load<Sprite>("Images/StrikeIcon"), "Attack"));
-        cardList.Add(new Card(8, "Flicker Jabs", new int[1] { 0 }, 5, 12, 6, 0, 0, -2, "On Hit: 50% chance to hit again.", Resources.Load<Sprite>("Images/StrikeIcon"), "Special"));
+        cardList.Add(new Card(8, "Flicker Jabs", new int[1] { 0 }, 5, 12, 6, 0, 1, -2, "On Hit: 50% chance to hit again.", Resources.Load<Sprite>("Images/StrikeIcon"), "Special"));
+        cardList.Add(new Card(8, "Vicious Mockery", new int[1] { 1 }, 10, 15, 2, 6, 0, 0, "\"Cause a bit of mental damage by shouting some rather rude words\"", Resources.Load<Sprite>("Images/MagicIcon"), "Special"));
     }
 }

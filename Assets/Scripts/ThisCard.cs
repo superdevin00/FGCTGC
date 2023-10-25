@@ -57,7 +57,7 @@ public class ThisCard : MonoBehaviour
     public GameObject Discard;
     public bool isInDiscard;
     public GameController gameController;
-    public TurnSystem turnSystem;
+    //public TurnSystem turnSystem;
     public Animator animator;
     public Animation flipAnim;
     public bool alreadyFlipped;
@@ -74,7 +74,7 @@ public class ThisCard : MonoBehaviour
             alreadyFlipped = false;
             playerDeck = GameObject.Find("Deck Panel").GetComponent<PlayerDeck>();
             playZone = GameObject.Find("Play Panel");
-            turnSystem = GameObject.Find("TurnSystemController").GetComponent<TurnSystem>();
+            //turnSystem = GameObject.Find("TurnSystemController").GetComponent<TurnSystem>();
             gameController = GameObject.Find("GameController").GetComponent<GameController>();
             flipAnim = GetComponent<Animation>();
             animator = GetComponent<Animator>();

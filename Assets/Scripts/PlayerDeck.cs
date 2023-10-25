@@ -7,6 +7,7 @@ public class PlayerDeck : MonoBehaviour
 {
 
     public List<Card> deck = new List<Card>();
+    public List<int> loadDeck = new List<int>();
     public Card container;
     public static List<Card> staticDeck = new List<Card>();
 
@@ -69,10 +70,12 @@ public class PlayerDeck : MonoBehaviour
     private void LoadPlayerDeck()
     {
         //Load Deck
-        deck = SaveGame.Load<List<Card>>("Deck");
+        loadDeck = SaveGame.Load<List<int>>("Deck");
+        Debug.Log(loadDeck.Count);
+        deck.Clear();
 
         //Randomize if no deck set
-        if (deck == null)
+        if (loadDeck == null)
         {
             Debug.Log("DeckRandom");
             for (int i = 0; i < deckSize - 2; i++)
@@ -82,9 +85,16 @@ public class PlayerDeck : MonoBehaviour
             }
             
         }
+        //Make deck using saved id's
         else
         {
             Debug.Log("NotRandom");
+            
+            for (int i=0; i<loadDeck.Count;i++)
+            {
+                Debug.Log(loadDeck[i]);
+                deck.Add(CardDataBase.cardList[loadDeck[i]]);
+            }
         }
 
         Debug.Log(deck.Count);
