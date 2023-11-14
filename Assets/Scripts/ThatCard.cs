@@ -52,24 +52,33 @@ public class ThatCard : MonoBehaviour
 
     public GameObject Discard;
     public bool isInDiscard;
+    public Animator animator;
+    public Animation flipAnim;
+    public bool alreadyFlippped;
+    public bool isAnimPlaying;
+    public bool cardAlreadyAttacked;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        alreadyFlippped = false;
+        animator = GetComponent<Animator>();
         opponentDeck = GameObject.Find("Opponent Deck Panel").GetComponent<OpponentDeck>();
         //thatCard[0] = CardDataBase.cardList[thatId];
         numberOfCardsInDeck = opponentDeck.deckSize;
+        cardAlreadyAttacked = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         Hand = GameObject.Find("Opponent Card Panel");
-        if (this.transform.parent == Hand.transform)
+        /*if (this.transform.parent == Hand.transform)
         {
             cardBack = false;
 
-        }
+        }*/
 
         cardBackScript = GetComponent<CardBack>();
         id = thatCard[0].id;
@@ -117,6 +126,9 @@ public class ThatCard : MonoBehaviour
             {
                 case 0: style1Image.sprite = Resources.Load<Sprite>("Images/StrikeIcon"); break;
                 case 1: style1Image.sprite = Resources.Load<Sprite>("Images/BladeIcon"); break;
+                case 2: style1Image.sprite = Resources.Load<Sprite>("Images/GrappleIcon"); break;
+                case 3: style1Image.sprite = Resources.Load<Sprite>("Images/YangKiIcon"); break;
+                case 4: style1Image.sprite = Resources.Load<Sprite>("Images/YinKiIcon"); break;
                 default: style1Image.enabled = false; break;
             }
         }
@@ -130,6 +142,9 @@ public class ThatCard : MonoBehaviour
             {
                 case 0: style2Image.sprite = Resources.Load<Sprite>("Images/StrikeIcon"); break;
                 case 1: style2Image.sprite = Resources.Load<Sprite>("Images/BladeIcon"); break;
+                case 2: style2Image.sprite = Resources.Load<Sprite>("Images/GrappleIcon"); break;
+                case 3: style2Image.sprite = Resources.Load<Sprite>("Images/YangKiIcon"); break;
+                case 4: style2Image.sprite = Resources.Load<Sprite>("Images/YinKiIcon"); break;
                 default: style2Image.enabled = false; break;
             }
         }
@@ -139,7 +154,7 @@ public class ThatCard : MonoBehaviour
         }
         #endregion cardStyles 
 
-        cardBackScript.UpdateCard(cardBack);
+        //cardBackScript.UpdateCard(cardBack);
         staticCardBack = cardBack;
 
         if (this.tag == "Clone")
@@ -173,5 +188,29 @@ public class ThatCard : MonoBehaviour
     public void DiscardCard()
     {
         Destroy(gameObject);
+    }
+
+    public bool IsAnimPlaying()
+    {
+        Debug.Log("Check anim");
+        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1);
+        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
+    }
+
+    public void FlipCardAnimStart()
+    {
+        alreadyFlippped = true;
+        isAnimPlaying = true;
+        StartCoroutine(FlipCardAnim());
+    }
+
+    public IEnumerator FlipCardAnim()
+    {
+        animator.SetTrigger("Flip");
+
+        yield return new WaitForSeconds(1.0f);
+
+        Debug.Log("Set Anim Playing False");
+        isAnimPlaying = false;
     }
 }

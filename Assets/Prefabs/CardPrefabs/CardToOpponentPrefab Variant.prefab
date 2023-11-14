@@ -122,6 +122,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Clone
       objectReference: {fileID: 0}
+    - target: {fileID: 9135140889540458565, guid: 1d53a6098ca8bc74ea147669e5f12b14,
+        type: 3}
+      propertyPath: thatCard
+      value: 
+      objectReference: {fileID: 6561085069077044047}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d53a6098ca8bc74ea147669e5f12b14, type: 3}
 --- !u!114 &605755798780440836 stripped
@@ -239,6 +244,11 @@ MonoBehaviour:
   canBePlayed: 0
   Discard: {fileID: 0}
   isInDiscard: 0
+  animator: {fileID: 4432238265046012048}
+  flipAnim: {fileID: 3898796348461350958}
+  alreadyFlippped: 0
+  isAnimPlaying: 0
+  cardAlreadyAttacked: 0
 --- !u!114 &605755799182555681 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 439275517815818028, guid: 1d53a6098ca8bc74ea147669e5f12b14,
@@ -335,6 +345,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!111 &3898796348461350958 stripped
+Animation:
+  m_CorrespondingSourceObject: {fileID: 4065558517123759395, guid: 1d53a6098ca8bc74ea147669e5f12b14,
+    type: 3}
+  m_PrefabInstance: {fileID: 1040487030713793805}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4432238265046012048 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3743322834683735453, guid: 1d53a6098ca8bc74ea147669e5f12b14,
+    type: 3}
+  m_PrefabInstance: {fileID: 1040487030713793805}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7061089673792879020 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8038515031102637217, guid: 1d53a6098ca8bc74ea147669e5f12b14,

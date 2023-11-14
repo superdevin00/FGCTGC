@@ -15,7 +15,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log("OnBeginDrag");
+            //Debug.Log("OnBeginDrag");
 
             //Set up a placeholder to return current object to if no Dropzone is found
             placeholder = new GameObject();
@@ -40,7 +40,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             this.transform.position = eventData.position;
-
+            Debug.Log(eventData.position);
+            Debug.Log(this.transform.position);
             if (placeholder.transform.parent != placeholderParent)
             {
                 placeholder.transform.SetParent(placeholderParent);
@@ -68,7 +69,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log("OnEndDrag");
+            //Debug.Log("OnEndDrag");
 
             this.transform.SetParent(parentToReturnTo);
             this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());

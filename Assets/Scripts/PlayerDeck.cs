@@ -71,13 +71,13 @@ public class PlayerDeck : MonoBehaviour
     {
         //Load Deck
         loadDeck = SaveGame.Load<List<int>>("Deck");
-        Debug.Log(loadDeck.Count);
+        //Debug.Log(loadDeck.Count);
         deck.Clear();
 
         //Randomize if no deck set
         if (loadDeck == null)
         {
-            Debug.Log("DeckRandom");
+            //Debug.Log("DeckRandom");
             for (int i = 0; i < deckSize - 2; i++)
             {
                 x = Random.Range(2, 7);
@@ -88,16 +88,16 @@ public class PlayerDeck : MonoBehaviour
         //Make deck using saved id's
         else
         {
-            Debug.Log("NotRandom");
+            //Debug.Log("NotRandom");
             
             for (int i=0; i<loadDeck.Count;i++)
             {
-                Debug.Log(loadDeck[i]);
+                //Debug.Log(loadDeck[i]);
                 deck.Add(CardDataBase.cardList[loadDeck[i]]);
             }
         }
 
-        Debug.Log(deck.Count);
+        //Debug.Log(deck.Count);
         //Shuffle
         Shuffle();
 
@@ -129,10 +129,10 @@ public class PlayerDeck : MonoBehaviour
 
     public void Shuffle()
     {
-        Debug.Log("StartShuffle");
+        //Debug.Log("StartShuffle");
         for (int i = 0; i < deck.Count - 1; i++)
         {
-            Debug.Log("ShuffleStep");
+            //Debug.Log("ShuffleStep");
             container = deck[i];
             int randomIndex = Random.Range(i, deck.Count - 1);
             deck[i] = deck[randomIndex];
@@ -150,7 +150,7 @@ public class PlayerDeck : MonoBehaviour
 
     public void DrawTo(int x)
     {
-        Debug.Log(Hand.transform.childCount);
+        //Debug.Log(Hand.transform.childCount);
         if (Hand.transform.childCount < x)
         {
             StartCoroutine(DrawRoutine(x - Hand.transform.childCount));

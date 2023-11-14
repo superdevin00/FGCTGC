@@ -45,7 +45,7 @@ public class DeckBuilder : MonoBehaviour
                 Debug.Log(i);*/
                 deck.Add(gameObject.transform.GetChild(i).GetComponent<ThisCard>().id);
             }
-            SaveGame.Delete("Deck");
+            SaveGame.DeleteAll();
             SaveGame.Save("Deck", deck);
         }
     }

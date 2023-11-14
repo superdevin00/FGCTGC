@@ -61,6 +61,7 @@ public class ThisCard : MonoBehaviour
     public Animator animator;
     public Animation flipAnim;
     public bool alreadyFlipped;
+    public bool cardAlreadyAttacked;
 
     // Start is called before the first frame update
     void Start()
@@ -68,6 +69,7 @@ public class ThisCard : MonoBehaviour
         cardBackScript = GetComponent<CardBack>();
         //thisCard[0] = CardDataBase.cardList[thisId];
         canBePlayed = true;
+        cardAlreadyAttacked = false;
 
         if (SceneManager.GetActiveScene().name == "Gameplay")
         {
@@ -95,7 +97,6 @@ public class ThisCard : MonoBehaviour
 
             if (gameObject.transform.parent == Hand.transform && gameController.isWaitingForOpponent == false && cardBackScript.GetCardBackActive() == true && alreadyFlipped == false)
             {
-                Debug.Log("Try to Flip");
                 StartCoroutine(FlipCardAnim());
                 alreadyFlipped = true;
             }
@@ -173,6 +174,9 @@ public class ThisCard : MonoBehaviour
             {
                 case 0: style1Image.sprite = Resources.Load<Sprite>("Images/StrikeIcon"); break;
                 case 1: style1Image.sprite = Resources.Load<Sprite>("Images/BladeIcon"); break;
+                case 2: style1Image.sprite = Resources.Load<Sprite>("Images/GrappleIcon"); break;
+                case 3: style1Image.sprite = Resources.Load<Sprite>("Images/YangKiIcon"); break;
+                case 4: style1Image.sprite = Resources.Load<Sprite>("Images/YinKiIcon"); break;
                 default: style1Image.enabled = false; break;
             }
         }
@@ -186,6 +190,9 @@ public class ThisCard : MonoBehaviour
             {
                 case 0: style2Image.sprite = Resources.Load<Sprite>("Images/StrikeIcon"); break;
                 case 1: style2Image.sprite = Resources.Load<Sprite>("Images/BladeIcon"); break;
+                case 2: style2Image.sprite = Resources.Load<Sprite>("Images/GrappleIcon"); break;
+                case 3: style2Image.sprite = Resources.Load<Sprite>("Images/YangKiIcon"); break;
+                case 4: style2Image.sprite = Resources.Load<Sprite>("Images/YinKiIcon"); break;
                 default: style2Image.enabled = false; break;
             }
         }

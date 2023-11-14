@@ -127,6 +127,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9135140889540458565, guid: 1d53a6098ca8bc74ea147669e5f12b14,
+        type: 3}
+      propertyPath: thisCard
+      value: 
+      objectReference: {fileID: 1364984226268588494}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d53a6098ca8bc74ea147669e5f12b14, type: 3}
 --- !u!114 &1932444696570861216 stripped
@@ -195,23 +200,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2074456247102699367}
   m_PrefabAsset: {fileID: 0}
---- !u!111 &8747817942981225919
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1932444697287889922}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 7400000, guid: b60f78007f57c2b4899c84d287173b0c, type: 2}
-  - {fileID: 7400000, guid: 3612861c0d1da4247a36e3fa1be3397c, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &1364984226268588494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,10 +260,10 @@ MonoBehaviour:
   Discard: {fileID: 0}
   isInDiscard: 0
   gameController: {fileID: 0}
-  turnSystem: {fileID: 0}
   animator: {fileID: 0}
-  flipAnim: {fileID: 8747817942981225919}
+  flipAnim: {fileID: 0}
   alreadyFlipped: 0
+  cardAlreadyAttacked: 0
 --- !u!114 &5367282290205654067
 MonoBehaviour:
   m_ObjectHideFlags: 0
