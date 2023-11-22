@@ -17,6 +17,10 @@ public class SpecialFunction : MonoBehaviour
             switch (card.cardName)
             {
                 case "Solar Plexus Strike": SolarPlexusStrike(frame); break;
+                case "Quick Step": QuickStep(frame); break;
+                case "Dash Punch": DashPunch(frame); break;
+                case "Swaying Strike": SwayingStrike(frame); break;
+                case "Flying Dropkick": FlyingDropkickStep(frame); break;
                 default: break;
             }
 
@@ -25,14 +29,17 @@ public class SpecialFunction : MonoBehaviour
 
     public void checkSpecialFunctionHit(Card card, bool cardHit, string target, bool cardBlocked)
     {
-        if (card != null && !cardBlocked)
+        if (card != null)
         {
             switch (card.cardName)
             {
                 case "Grab": Grab(cardHit, target); break;
                 case "Palm Strike": PalmStrike(cardHit); break;
-                case "Leg Sweep": LegSweep(cardHit, target); break;
+                case "Leg Sweep": LegSweep(cardHit, target, cardBlocked); break;
                 case "Flicker Jabs": FlickerJabs(cardHit,target); break;
+                case "Flying Dropkick": FlyingDropkickHit(cardHit, target,cardBlocked); break;
+                case "Grapple Hook": GrappleHook(cardHit, cardBlocked); break;
+                case "Kunai & Chain": KunaiAndChain(cardHit, cardBlocked); break;
                 default: break;
             }
         }
@@ -46,9 +53,9 @@ public class SpecialFunction : MonoBehaviour
             gameController.Knockdown(target);
         }
     }
-    public void LegSweep(bool cardHit, string target)
+    public void LegSweep(bool cardHit, string target, bool cardBlocked)
     { 
-        if (cardHit)
+        if (cardHit && !cardBlocked)
         {
             gameController.Knockdown(target);
         }
@@ -67,6 +74,50 @@ public class SpecialFunction : MonoBehaviour
         if (frame == 5)
         {
             gameController.AddToRange(-1);
+        }
+    }
+
+    public void QuickStep(int frame)
+    {
+        if (frame == 1 || frame == 5)
+        {
+            gameController.AddToRange(-1);
+        }
+    }
+
+    public void DashPunch(int frame)
+    {
+        if (frame == 5)
+        {
+            gameController.AddToRange(-2);
+        }
+    }
+
+    public void SwayingStrike (int frame)
+    {
+        if (frame == 3)
+        {
+            gameController.AddToRange(1);
+        }
+        if (frame == 7)
+        {
+            gameController.AddToRange(-1);
+        }
+    }
+
+    public void FlyingDropkickStep (int frame)
+    {
+        if (frame == 1 || frame == 7)
+        {
+            gameController.AddToRange(-1);
+        }
+    }
+
+    public void FlyingDropkickHit (bool cardHit, string target, bool cardBlocked)
+    {
+        if (cardHit && !cardBlocked)
+        {
+            gameController.Knockdown(target);
         }
     }
 
@@ -92,6 +143,29 @@ public class SpecialFunction : MonoBehaviour
                     gameController.opponentBonusAdvantage += gameController.opponentCard.hitAdv;
                 }
             }*/
+        }
+    }
+
+    public void GrappleHook(bool cardHit, bool cardBlocked)
+    {
+        if (cardHit && !cardBlocked)
+        {
+            gameController.AddToRange(-2);
+        }
+        else if (cardHit && cardBlocked)
+        {
+            gameController.AddToRange(-1);
+        }
+    }
+    public void KunaiAndChain(bool cardHit, bool cardBlocked)
+    {
+        if (cardHit && !cardBlocked)
+        {
+            gameController.AddToRange(2);
+        }
+        else if (cardHit && cardBlocked)
+        {
+            gameController.AddToRange(1);
         }
     }
 }

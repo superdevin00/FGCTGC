@@ -24,16 +24,16 @@ public class CardDataBase : MonoBehaviour
         cardList.Add(new Card(7, "Footsies", new int[1] { 0 }, 5, 10, 8, 2, 6, 2, "", Resources.Load<Sprite>("Images/StrikeIcon"), "Attack"));
         cardList.Add(new Card(8, "Flicker Jabs", new int[1] { 0 }, 5, 12, 6, 0, 1, -2, "On Hit: 50% chance to hit again.", Resources.Load<Sprite>("Images/StrikeIcon"), "Special"));
         cardList.Add(new Card(9, "Gutpunch", new int[1] { 0 }, 5, 10, 8, 0, 3, -2, "Special Cancel: +8", Resources.Load<Sprite>("Images/StrikeIcon"), "Attack")); //WIP
-        cardList.Add(new Card(10, "Quick Step", new int[1] { 0 }, 1, 8, 0, 0, 0, 0, "F1: Step In\nF:5 Step In", Resources.Load<Sprite>("Images/StrikeIcon"), "Attack"));//WIP
-        cardList.Add(new Card(11, "Dash Punch", new int[1] { 0 }, 7, 12, 12, 0, 5, -5, "F5: Step In 2", Resources.Load<Sprite>("Images/StrikeIcon"), "Special")); //WIP
-        cardList.Add(new Card(12, "Swaying Strike", new int[1] { 0 }, 9, 15, 10, 0, 7, 2, "F3: Step Out\nF7: Step In", Resources.Load<Sprite>("Images/StrikeIcon"), "Special")); //WIP
+        cardList.Add(new Card(10, "Quick Step", new int[1] { 0 }, 1, 8, 0, 0, 0, 0, "F1: Step In\nF:5 Step In", Resources.Load<Sprite>("Images/StrikeIcon"), "Attack"));
+        cardList.Add(new Card(11, "Dash Punch", new int[1] { 0 }, 7, 12, 12, 0, 5, -5, "F5: Step In 2", Resources.Load<Sprite>("Images/StrikeIcon"), "Special")); 
+        cardList.Add(new Card(12, "Swaying Strike", new int[1] { 0 }, 9, 15, 10, 0, 7, 2, "F3: Step Out\nF7: Step In", Resources.Load<Sprite>("Images/StrikeIcon"), "Special"));
         cardList.Add(new Card(13, "Collar Bone Breaker", new int[1] { 0 }, 7, 13, 10, 0, 1, 8, "", Resources.Load<Sprite>("Images/StrikeIcon"), "Attack"));
-        cardList.Add(new Card(14, "Flying Dropkick", new int[1] { 0 }, 11, 18, 18, 1, 4, -4, "F1: Step In\nF7: Step In\nKnockdown", Resources.Load<Sprite>("Images/StrikeIcon"), "Special"));//WIP
+        cardList.Add(new Card(14, "Flying Dropkick", new int[1] { 0 }, 11, 18, 18, 1, 4, -4, "F1: Step In\nF7: Step In\nKnockdown", Resources.Load<Sprite>("Images/StrikeIcon"), "Special"));
         cardList.Add(new Card(15, "Hilt Strike", new int[1] { 1 }, 4, 7, 6, 1, 1, -1, "", Resources.Load<Sprite>("Images/BladeIcon"), "Attack"));
-        cardList.Add(new Card(16, "Grapple Hook", new int[1] { 1 }, 12, 20, 10, 5, 4, -6, "On Hit: Pull 2\nOn Block: Pull 1", Resources.Load<Sprite>("Images/BladeIcon"), "Attack"));//WIP
-        cardList.Add(new Card(17, "Kunai & Chain", new int[1] { 1 }, 8, 16, 14, 3, 3, -5, "On Hit: Push 2\nOn Block: Push 1", Resources.Load<Sprite>("Images/BladeIcon"), "Attack"));//WIP
+        cardList.Add(new Card(16, "Grapple Hook", new int[1] { 1 }, 12, 20, 10, 5, 4, -6, "On Hit: Pull 2\nOn Block: Pull 1", Resources.Load<Sprite>("Images/BladeIcon"), "Attack"));
+        cardList.Add(new Card(17, "Kunai & Chain", new int[1] { 1 }, 8, 16, 14, 3, 3, -5, "On Hit: Push 2\nOn Block: Push 1", Resources.Load<Sprite>("Images/BladeIcon"), "Attack"));
         cardList.Add(new Card(18, "Quick Chop", new int[1] { 2 }, 5, 8, 10, 1, 4, 1, "", Resources.Load<Sprite>("Images/GrappleIcon"), "Attack"));
-        cardList.Add(new Card(19, "Steady Fist", new int[1] { 3 }, 4, 7, 6, 0, 1, 1, "Special Cancel: +4", Resources.Load<Sprite>("Images/YangKiIcon"), "Attack"));
+        cardList.Add(new Card(19, "Steady Fist", new int[1] { 3 }, 4, 7, 6, 0, 1, 1, "Special Cancel: +4", Resources.Load<Sprite>("Images/YangKiIcon"), "Attack"));//WIP
         cardList.Add(new Card(20, "Claw Swipe", new int[1] { 4 }, 3, 7, 8, 0, 4, -3, "", Resources.Load<Sprite>("Images/YinKiIcon"), "Attack"));
 
         //cardList.Add(new Card(18, "Flicker Jabs", new int[1] { 0 }, 5, 12, 6, 0, 1, -2, "On Hit: 50% chance to hit again.", Resources.Load<Sprite>("Images/StrikeIcon"), "Special"));
