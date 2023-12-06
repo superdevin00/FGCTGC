@@ -288,7 +288,7 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -298,17 +298,17 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 414.46664
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 356.08545
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -348,12 +348,12 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 207.23332
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -178.04272
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -374,6 +374,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AtkCardTemplate (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 439275517838615397, guid: 1d53a6098ca8bc74ea147669e5f12b14,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d53a6098ca8bc74ea147669e5f12b14, type: 3}
@@ -1521,7 +1526,7 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -1531,17 +1536,17 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 416.775
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 356.08545
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -1581,12 +1586,12 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 208.3875
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -178.04272
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -1607,6 +1612,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AtkCardTemplate
+      objectReference: {fileID: 0}
+    - target: {fileID: 439275517838615397, guid: 1d53a6098ca8bc74ea147669e5f12b14,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d53a6098ca8bc74ea147669e5f12b14, type: 3}
@@ -2399,8 +2409,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 823, y: -42}
-  m_SizeDelta: {x: 300, y: 421}
+  m_AnchoredPosition: {x: 823, y: 244}
+  m_SizeDelta: {x: 270.05, y: 354.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &802574765
 MonoBehaviour:
@@ -3072,7 +3082,7 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -3082,17 +3092,17 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 395.99988
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 356.08545
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -3132,12 +3142,12 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 197.99994
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -178.04272
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -3158,6 +3168,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AtkCardTemplate (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 439275517838615397, guid: 1d53a6098ca8bc74ea147669e5f12b14,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d53a6098ca8bc74ea147669e5f12b14, type: 3}
@@ -4535,7 +4550,7 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -4545,17 +4560,17 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 409.84995
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 356.08545
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -4595,12 +4610,12 @@ PrefabInstance:
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 204.92497
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -178.04272
       objectReference: {fileID: 0}
     - target: {fileID: 439275517838615396, guid: 1d53a6098ca8bc74ea147669e5f12b14,
         type: 3}
@@ -4621,6 +4636,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AtkCardTemplate (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 439275517838615397, guid: 1d53a6098ca8bc74ea147669e5f12b14,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d53a6098ca8bc74ea147669e5f12b14, type: 3}
