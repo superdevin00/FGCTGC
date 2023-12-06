@@ -52,4 +52,8 @@ public class MainMenuController : MonoBehaviour
     {
         SceneManager.LoadScene("DeckBuilder");
     }
+    public void GoToTutorial()
+    {
+        SceneManager.LoadScene("HowToPlay");
+    }
 }

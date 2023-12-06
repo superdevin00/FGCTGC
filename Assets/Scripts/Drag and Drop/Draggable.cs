@@ -40,8 +40,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             this.transform.position = eventData.position;
-            Debug.Log(eventData.position);
-            Debug.Log(this.transform.position);
+            //Debug.Log(eventData.position);
+            //Debug.Log(this.transform.position);
             if (placeholder.transform.parent != placeholderParent)
             {
                 placeholder.transform.SetParent(placeholderParent);

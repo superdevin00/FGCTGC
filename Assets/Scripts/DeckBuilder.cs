@@ -37,16 +37,27 @@ public class DeckBuilder : MonoBehaviour
         }
         else
         {
-
-            for (int i = 0; i < deckCount; i++)
+            try
             {
-                Debug.Log("Try Save");
-                /*Debug.Log(gameObject.transform.GetChild(i).GetComponent<ThisCard>().id);
-                Debug.Log(i);*/
-                deck.Add(gameObject.transform.GetChild(i).GetComponent<ThisCard>().id);
+                SaveGame.Delete("Deck");
+                Debug.Log(SaveGame.SavePath.ToString());
+                for (int i = 0; i < deckCount; i++)
+                {
+                    Debug.Log("Try Save");
+                    /*Debug.Log(gameObject.transform.GetChild(i).GetComponent<ThisCard>().id);
+                    Debug.Log(i);*/
+                    deck.Add(gameObject.transform.GetChild(i).GetComponent<ThisCard>().id);
+                }
+                SaveGame.Delete("Deck");
+                SaveGame.Save("Deck", deck);
+                errorMessage.text = "Deck Saved!";
+                errorMessage.gameObject.SetActive(true);
             }
-            SaveGame.DeleteAll();
-            SaveGame.Save("Deck", deck);
+            catch
+            {
+                errorMessage.text = "An error has occured";
+                errorMessage.gameObject.SetActive(true);
+            }
         }
     }
 

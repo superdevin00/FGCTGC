@@ -789,8 +789,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 10726971516526c459c2218da8119cb7, type: 2}
+  m_sharedMaterial: {fileID: -3560190805017502449, guid: 10726971516526c459c2218da8119cb7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -820,7 +821,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 11
   m_fontSizeMax: 36
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -850,7 +851,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -5.657776, y: 0, z: -1.739502, w: 0}
+  m_margin: {x: -5.657776, y: 5.424988, z: -1.739502, w: -1.4222412}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -922,7 +923,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e6cb0b3b1ae1c904194fc534a6f03c94, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c49b046b70fead04c9c33d9606fd5aeb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
