@@ -247,7 +247,7 @@ public class GameController : MonoBehaviour
     public void UpdateNeutralButton()
     {
         //Update button for neutral phase
-        if (isWaitingForOpponent || playerReady || playerStunned || gamePhase == "Neutral" || gamePhase == "Knockdown")
+        if (!canPlayerPlayCard || isWaitingForOpponent || playerReady || playerStunned || gamePhase == "Neutral" || gamePhase == "Knockdown")
         {
             returnToNeutralButton.SetActive(false);
         }
@@ -298,18 +298,21 @@ public class GameController : MonoBehaviour
                     {
                         ThatCard cardToFlip = GameObject.Find("Opponent Card Panel").GetComponentInChildren<ThatCard>();
 
-                        if (cardToFlip.thatCard[0].cardType != "Block" && cardToFlip.thatCard[0].cardType != "Grab")
+                        if (playerAdv > 0 || (cardToFlip.thatCard[0].cardType != "Block" && cardToFlip.thatCard[0].cardType != "Grab"))
                         {
-                            if (cardToFlip.alreadyFlippped == false)
+                            if(cardToFlip != null)
                             {
-                                cardToFlip.FlipCardAnimStart();
-                                yield return null;
-                            }
+                                if (cardToFlip.alreadyFlippped == false)
+                                {
+                                    cardToFlip.FlipCardAnimStart();
+                                    yield return null;
+                                }
 
-                            while (cardToFlip.isAnimPlaying == true)
-                            {
-                                Debug.Log("Wait for .1");
-                                yield return new WaitForSeconds(0.1f);
+                                while (cardToFlip.isAnimPlaying == true)
+                                {
+                                    Debug.Log("Wait for .1");
+                                    yield return new WaitForSeconds(0.1f);
+                                }
                             }
 
                             checkWinnerStep = 2;
